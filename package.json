@@ -1,0 +1,25 @@
+{
+  "name": "sudoku",
+  "version": "1.0.0",
+  "description": "Sudoku puzzle in browser",
+  "main": "index.js",
+  "repository": "https://github.com/anonOstrich/sudoku.git",
+  "author": "Jesper Kuutti <jesper.kuutti@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "devserver": "live-server",
+    "sass:watch": "node-sass scss/styles.scss css/style.css -w",
+    "ts:transpile-watch": "esbuild ts/index.ts --bundle --watch --outfile=js/index.js",
+    "js:transpile-production": "esbuild ts/index.ts --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=js/index.js",
+    "start": "npm-run-all --parallel sass:watch ts:transpile-watch devserver "
+  },
+  "devDependencies": {
+    "esbuild": "^0.15.2",
+    "live-server": "^1.2.2",
+    "node-sass": "^7.0.1",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.54.4",
+    "typescript": "^4.7.4"
+  }
+}

@@ -1,0 +1,9 @@
+html {
+  font-size: 62.5%; }
+
+*, *::before, *::after {
+  margin: 0;
+  box-sizing: border-box; }
+
+body {
+  background-color: blue; }
