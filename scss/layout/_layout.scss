@@ -4,33 +4,200 @@
 }
 
 body {
-    background-color: var(--color-gray-dark-2);
-    width: 100vw;
+    background-color: var(--color-black);
+    width: 100%;
     height: 100vh;
 
     display: grid;
-    grid-template-rows: 10vw  1fr auto;
+    grid-template-rows: 10vw 15vh 1fr auto;
     justify-content: stretch;
     justify-items: center;
-    row-gap: 2rem;
+    row-gap: 1.25rem;
     color: var(--color-white);
     font-family: 'Ubuntu', sans-serif;
+    position: relative;
 }
 
 
 
 .header {
     background-color: orangered;
+    display: flex;
+    width: 100%;
+    justify-content: space-evenly;
+    align-items: center;
 }
 
-main {
-    display: grid
+.info {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.75rem;
+}
+
+.content {
+    display: grid;
+    grid-template-rows: 1fr minmax(max-content, 20rem);
+    row-gap: 2rem;
+    width: 100%;
+    margin: 0;
+    padding: 1rem .5rem;
+    align-items: end;
+    justify-items: center;
+    
+
+    &__board {
+        display: grid;
+        grid-template-columns: repeat(9, 10vw);
+        grid-template-rows: repeat(9, 10vw);
+        row-gap: .25rem;
+        column-gap: .25rem;
+        // overflow: hidden;
+        background-color: var(--color-gray-dark-1);
+        border-radius: 1rem;
+        z-index: 15;
+    }
+
+    &__cell{
+        // rid of button formatting
+        border: none;
+        cursor: pointer;
+        font-size: inherit;
+        font-style: inherit;
+        color: inherit;
+
+        width: 100%;
+        height: 100%;
+        background-color: var(--color-gray-dark-2);
+        // box-sizing: content-box;
+        // border: transparent 2px solid;
+        // border: var(--color-gray-dark-2) 2px solid;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 3rem;
+        line-height: 1px;
+        // height: 11vw;
+        box-sizing: border-box;
+        z-index: 20;
+        
+    &:focus,
+    &:active {
+            outline: red .25rem solid;
+
+            &::before, &::after {
+                content: none !important;
+            }
+        }
+
+    &--added {
+        color: var(--color-primary-dark);
+    }
+        
+
+        &:nth-child(3n)::before {
+            z-index: 10;
+            position: absolute;
+            display: block;
+            width: .25rem;
+            height: calc(100% + 0.25rem);
+            top: 0;
+            right: -0.25rem;
+            content: "";
+            background-color: var(--color-gray-light-2);
+            // transform: scaleY(1.20);
+            transform: translateY(.25rem);
+        }
+
+        &:nth-child(n + 70):nth-child(-n + 81):before {
+            transform: translateY(-0.25rem);
+        }
+
+        &:nth-child(9n)::before {
+            z-index: 10;
+            content: none;
+        }
+
+        &:nth-child(9n)::after {
+            transform: translateX(-0.25rem);
+        }
+
+        &:nth-child(n + 19):nth-child(-n+27)::after,
+        &:nth-child(n + 46):nth-child(-n+54)::after
+         {
+            z-index: 10;
+            position: absolute;
+            display: block;
+            width: calc(100% + .25rem);
+            height: .25rem;
+            bottom: -.25rem;
+            left: 0;
+            content: "";
+            background-color: var(--color-gray-light-2);
+            
+        }
+
+
+
+    }
+
+    &__controls {
+        align-self: start;
+        background-color: red;
+
+        display: grid;
+        grid-template-rows: repeat(2, minmax(max-content, 18vw));
+        grid-template-columns: repeat(5, minmax(max-content, 18vw));
+        row-gap: .25rem;
+        column-gap: .25rem;
+
+        list-style: none;
+        padding-left: 0;
+        border-radius: .75rem;
+        overflow: hidden;
+
+        color: var(--color-gray-light-2);
+        background-color: var(--color-gray-light-2);
+        border: none;
+    }
+
+    &__option {
+        background-color: var(--color-gray-dark-2);
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 2.5rem;
+
+        button {
+            background-color: transparent;
+            font: inherit;
+            font-size: inherit;
+            border: none;
+            color: inherit;
+            height: 100%;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        button:active,
+        button:focus {
+            background-color: var(--color-gray-dark-1);
+        }
+    }
+
 }
 
 
 
 .game-menu {
-
+    position: absolute;
+    bottom: 6rem;
     background-color: var(--color-gray-dark-1);
     display: flex;
     flex-direction: column;
@@ -38,6 +205,7 @@ main {
     border-radius: 1rem;
     transition: all .5s;
     transform-origin: bottom center;
+    width: 50vw;
     
 
     &__new-game-title {
@@ -52,7 +220,7 @@ main {
     &__options {
         list-style: none;
         padding: 0;
-        width: 30vw;
+        width: 100%;
         display: grid;
         row-gap: 2px;
         
@@ -103,10 +271,12 @@ main {
 }
 
 .footer {
+    padding: .5rem 2rem;
+    padding-bottom: 1.5rem;
     font-size: 1.6rem;
     display: grid;
     grid-template-columns: max-content minmax(max-content, 30rem) max-content;
     justify-content: center;
     column-gap: 2rem;
-    width: 100vw;
+    width: 100%;
 }
