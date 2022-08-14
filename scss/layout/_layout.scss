@@ -4,5 +4,109 @@
 }
 
 body {
-    background-color: blue;
+    background-color: var(--color-gray-dark-2);
+    width: 100vw;
+    height: 100vh;
+
+    display: grid;
+    grid-template-rows: 10vw  1fr auto;
+    justify-content: stretch;
+    justify-items: center;
+    row-gap: 2rem;
+    color: var(--color-white);
+    font-family: 'Ubuntu', sans-serif;
+}
+
+
+
+.header {
+    background-color: orangered;
+}
+
+main {
+    display: grid
+}
+
+
+
+.game-menu {
+
+    background-color: var(--color-gray-dark-1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 1rem;
+    transition: all .5s;
+    transform-origin: bottom center;
+    
+
+    &__new-game-title {
+        display: block;
+        background-color: rebeccapurple;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 2px;
+        padding: .5rem 0;
+    }
+
+    &__options {
+        list-style: none;
+        padding: 0;
+        width: 30vw;
+        display: grid;
+        row-gap: 2px;
+        
+    }
+
+
+    &__item {
+
+    }
+
+    &__item-link {
+        transition: all .5s;
+        padding: 1rem 1.8rem;
+        background-color: rebeccapurple;
+        font-size: inherit;
+        color: inherit;
+        font-family: inherit;
+        text-align: inherit;
+        border: none;
+        width: 100%;
+        margin: 0;
+        cursor: pointer;
+        display: grid;
+        grid-template-columns: 1fr max-content;
+        align-items: center;
+    }
+
+    &__item-link:hover,
+    &__item-link:focus {
+        outline: none;
+        background-color: orangered;
+    }
+
+    &__option-icon {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+
+    &--visible {
+        transform: scaleY(1);
+        opacity: 1;
+    }
+
+    &--invisible {
+        transform: scaleY(0);
+        opacity: 0;
+    }
+}
+
+.footer {
+    font-size: 1.6rem;
+    display: grid;
+    grid-template-columns: max-content minmax(max-content, 30rem) max-content;
+    justify-content: center;
+    column-gap: 2rem;
+    width: 100vw;
 }

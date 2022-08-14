@@ -1,9 +1,114 @@
 html {
   font-size: 62.5%; }
 
+:root {
+  --color-gray-light-1: #ddd;
+  --color-gray-light-2: #aaa;
+  --color-gray-dark-1: #777;
+  --color-gray-dark-2: #444;
+  --color-black: #000;
+  --color-white: #fff;
+  --color-primary: #fa4f9f;
+  --color-primary-light: #ff83bd;
+  --color-primary-dark: #ff1381; }
+
+.btn {
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 1rem 2rem;
+  border-radius: .5rem;
+  background-color: var(--color-gray-dark-1);
+  transition: all .2s;
+  color: var(--color-white); }
+  .btn:hover, .btn:focus {
+    outline: none;
+    background-color: var(--color-gray-light-2); }
+  .btn:active {
+    transform: scale(1.05); }
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+  fill: var(--color-white);
+  display: inline-block; }
+
 *, *::before, *::after {
   margin: 0;
   box-sizing: border-box; }
 
 body {
-  background-color: blue; }
+  background-color: var(--color-gray-dark-2);
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: 10vw  1fr auto;
+  justify-content: stretch;
+  justify-items: center;
+  row-gap: 2rem;
+  color: var(--color-white);
+  font-family: 'Ubuntu', sans-serif; }
+
+.header {
+  background-color: orangered; }
+
+main {
+  display: grid; }
+
+.game-menu {
+  background-color: var(--color-gray-dark-1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1rem;
+  transition: all .5s;
+  transform-origin: bottom center; }
+  .game-menu__new-game-title {
+    display: block;
+    background-color: rebeccapurple;
+    width: 100%;
+    text-align: center;
+    margin-bottom: 2px;
+    padding: .5rem 0; }
+  .game-menu__options {
+    list-style: none;
+    padding: 0;
+    width: 30vw;
+    display: grid;
+    row-gap: 2px; }
+  .game-menu__item-link {
+    transition: all .5s;
+    padding: 1rem 1.8rem;
+    background-color: rebeccapurple;
+    font-size: inherit;
+    color: inherit;
+    font-family: inherit;
+    text-align: inherit;
+    border: none;
+    width: 100%;
+    margin: 0;
+    cursor: pointer;
+    display: grid;
+    grid-template-columns: 1fr max-content;
+    align-items: center; }
+  .game-menu__item-link:hover, .game-menu__item-link:focus {
+    outline: none;
+    background-color: orangered; }
+  .game-menu__option-icon {
+    width: 1.5rem;
+    height: 1.5rem; }
+  .game-menu--visible {
+    transform: scaleY(1);
+    opacity: 1; }
+  .game-menu--invisible {
+    transform: scaleY(0);
+    opacity: 0; }
+
+.footer {
+  font-size: 1.6rem;
+  display: grid;
+  grid-template-columns: max-content minmax(max-content, 30rem) max-content;
+  justify-content: center;
+  column-gap: 2rem;
+  width: 100vw; }
