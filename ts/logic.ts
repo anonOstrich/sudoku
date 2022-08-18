@@ -9,7 +9,7 @@ function randomInteger(min:  number, max: number) {
 
 class NullAction {
     type: ActionType = 'nullAction'
-    nextAction: BoardAction | null
+    nextAction: BoardAction | null = null
 
     isNullAction(): this is NullAction {
         return true
@@ -27,16 +27,17 @@ type ActionType = 'boardAction' | 'nullAction'
 class BoardAction {
     type: ActionType = 'boardAction'
     prevAction: Action
-    nextAction: BoardAction
+    nextAction: BoardAction | null = null
     private readonly idx: number
     private readonly value: number | null
 
-    private previousValue: number | null
+    private previousValue: number | null = null
     private applied = false
 
     constructor(idx: number, value: number | null, prevAction: Action){
         this.idx = idx
         this.value = value
+        this.prevAction = prevAction
     }
 
     apply(board: Array<number | null>){
@@ -65,9 +66,11 @@ class BoardAction {
 }
 
 export class SudokuBoard {
-    private board: Array<number>
-    private initialVisibleBoard: Array<number|null>
-    private visibleBoard: Array<number|null>
+    // These are assigned in randomizeBoard, called from constructor
+    private board!: Array<number>
+    private initialVisibleBoard!: Array<number|null>
+    private visibleBoard!: Array<number|null>
+
     private recentAction: Action = new NullAction()
 
     constructor() {

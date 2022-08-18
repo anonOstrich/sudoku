@@ -8,18 +8,26 @@
   "license": "MIT",
   "private": true,
   "scripts": {
+    "test": "ts-mocha test/*.ts",
     "devserver": "live-server",
     "sass:watch": "node-sass scss/styles.scss css/style.css -w",
+    "ts:transpile": "esbuild ts/index.ts --bundle --outfile=js/index.js",
     "ts:transpile-watch": "esbuild ts/index.ts --bundle --watch --outfile=js/index.js",
     "js:transpile-production": "esbuild ts/index.ts --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=js/index.js",
     "start": "npm-run-all --parallel sass:watch ts:transpile-watch devserver "
   },
   "devDependencies": {
+    "@types/chai": "^4.3.3",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^18.7.4",
+    "chai": "^4.3.6",
     "esbuild": "^0.15.2",
     "live-server": "^1.2.2",
+    "mocha": "^10.0.0",
     "node-sass": "^7.0.1",
     "npm-run-all": "^4.1.5",
     "sass": "^1.54.4",
+    "ts-mocha": "^10.0.0",
     "typescript": "^4.7.4"
   }
 }

@@ -41,7 +41,7 @@ html {
 body {
   background-color: var(--color-black);
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: grid;
   grid-template-rows: 10vw 15vh 1fr auto;
   justify-content: stretch;
@@ -172,8 +172,9 @@ body {
       background-color: var(--color-gray-dark-1); }
 
 .game-menu {
+  z-index: 100;
   position: absolute;
-  bottom: 6rem;
+  bottom: 8rem;
   background-color: var(--color-gray-dark-1);
   display: flex;
   flex-direction: column;
