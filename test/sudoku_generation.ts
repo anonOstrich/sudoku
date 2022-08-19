@@ -13,6 +13,7 @@ import {
   logBoard,
   hide,
   generateRandomSudoku,
+  UniquenessSolver,
 } from '../ts/sudoku_generator'
 
 describe('Sudoku board validity checks', () => {
@@ -313,7 +314,62 @@ describe('Sudoku generation', () => {
   })
 })
 
-describe.only('Sudoku hiding', () => {
+describe.only('Uniqueness solver', () => {
+  const solver = UniquenessSolver.getInstance()
+
+  it('determines that empty sudoku has no unique solution', () => {
+    const empty = generateBlankBoard()
+    expect(
+      solver.hasUniqueSolution(empty),
+      'Empty sudoku definitely should not have a unique solution'
+    ).to.be.false
+  })
+
+  it('determines that completed sudoku has unique solution', () => {
+    const board = generateRandomSudoku()
+    expect(
+      solver.hasUniqueSolution(board),
+      'Filled board should definitely have a unique solution'
+    ).to.be.true
+  })
+
+  it('recognizes the uniqueness with some in-between cases', () => {
+    const solvedBoard = generateRandomSudoku()
+    const oneMissing = hide(solvedBoard, 1)
+    const fewMissing = hide(solvedBoard, 10)
+
+    expect(solver.hasUniqueSolution(oneMissing)).to.be.true
+    expect(solver.hasUniqueSolution(fewMissing)).to.be.true
+  })
+
+  it('extreme cases', () => {
+    const solvedBoard = generateRandomSudoku()
+
+    const moreMissing = hide(solvedBoard, 40)
+    logBoard(moreMissing)
+    const maxMissing = hide(solvedBoard, 60)
+    logBoard(maxMissing)
+
+    expect(
+      solver.hasUniqueSolution(moreMissing),
+      '40 missing should always work (probably?)'
+    ).to.be.true
+    expect(
+      solver.hasUniqueSolution(maxMissing),
+      '60 missing does not work always'
+    ).to.be.true
+
+    const certainlyNotUnique = hide(solvedBoard, 80)
+    console.log('following: only one shown value (hopefully...)')
+    logBoard(certainlyNotUnique)
+    expect(
+      solver.hasUniqueSolution(certainlyNotUnique),
+      'with 1 visible value has many solutions'
+    ).to.be.false
+  })
+})
+
+describe('Sudoku hiding', () => {
   it('can hide one number', () => {
     const genBoard = generateRandomSudoku()
     const hiddenBoard = hide(genBoard, 1)

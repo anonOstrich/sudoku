@@ -265,9 +265,59 @@ export function generateRandomSudoku(): BoardArray {
   return board
 }
 
+export class UniquenessSolver {
+  private foundSolutions!: number
+  private static options: CellNumber[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+  private board!: BoardArray
+  private static singleton: UniquenessSolver | undefined = undefined
+
+  public static getInstance() {
+    if (UniquenessSolver.singleton === undefined) {
+      UniquenessSolver.singleton = new UniquenessSolver()
+    }
+    return UniquenessSolver.singleton
+  }
+
+  private constructor() {
+    this.initialize()
+  }
+
+  private initialize(board: BoardArray | undefined = undefined) {
+    this.foundSolutions = 0
+    this.board = board ?? generateBlankBoard()
+  }
+
+  public hasUniqueSolution(boardToSolve: BoardArray) {
+    this.initialize([...boardToSolve])
+    return !this.hasTwoSolutions()
+  }
+
+  private hasTwoSolutions(): boolean {
+    if (boardIsComplete(this.board)) {
+      this.foundSolutions++
+      return this.foundSolutions > 1
+    }
+
+    if (!boardIsValid(this.board)) {
+      return false
+    }
+
+    const idx = this.board.findIndex((val) => val === null)
+
+    for (let val of UniquenessSolver.options) {
+      this.board[idx] = val
+      const res = this.hasTwoSolutions()
+      if (res) return res
+    }
+
+    this.board[idx] = null
+    return false
+  }
+}
+
 function hasUniqueSolution(board: BoardArray): boolean {
-  return true
-  throw new Error('Not implemented xD')
+  const solver = UniquenessSolver.getInstance()
+  return solver.hasUniqueSolution(board)
 }
 
 function hideOne(board: BoardArray) {
@@ -291,26 +341,52 @@ function hideOne(board: BoardArray) {
 
     board[chosenIdx] = prev
   }
-  throw new Error(
-    'Not possible to remove any number without making the puzzle ambiguous'
-  )
+
   return false
 }
 
 export function hide(fullBoard: BoardArray, cellsToHide: number): BoardArray {
+  if (cellsToHide < 0 || cellsToHide > 81) {
+    throw new RangeError(
+      `Not possible to creat a Sudoku with ${cellsToHide} hidden numbers.`
+    )
+  }
+
+  if (cellsToHide > 64) {
+    console.log(
+      'not possible to find unique solutions with this many hidden values'
+    )
+  }
+
   // In case we don't want to mutate the original board -- quick correctness checking could be done simply by comparing to the value in the full board
 
   const board = [...fullBoard] as BoardArray
 
   // Strictly speaking, a sudoku with 17 numbers may have a unique solution.
   // So 64 hideable cells in that case. We'll push that limit if need be...
-  if (cellsToHide < 0 || cellsToHide > 60) {
-    throw new RangeError(
-      `Not possible to creat a Sudoku with ${cellsToHide} hidden numbers.`
-    )
-  }
+
   for (let i = 0; i < cellsToHide; i++) {
-    hideOne(board)
+    const success = hideOne(board)
+    if (!success) {
+      console.warn('Fail but stop :)x)')
+      break
+    }
   }
+  return board
+}
+
+function generateSudokuPuzzle(filledValues: number): BoardArray {
+  // 1. Geneerate
+  // 2. Try to hide
+  // 3. Fail?
+  // a) try to hide different numbers (a few times)
+  // or b) generate a whole new sudoku and repeat
+  // return if successful... Otherwise throw an error? Or something?
+
+  // Should these be precomputed? Might take some processing power on the device. Perhaps an option would be great
+  // Might be optimization steps to find as well
+  // A good project to use WebWorkers? Premium accounts with AWS lambda and parallelization?
+  // Premium accounts?
+  const board = generateRandomSudoku()
   return board
 }
