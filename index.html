@@ -1,210 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sudoku</title>
-    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
-</head>
-<body>
+    <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
     <header class="header">
-        <h1 class="h1 header__title">Sudoku</h1>
-        <a href="https://en.wikipedia.org/wiki/Sudoku" class="header__link">How to play?</a>
+      <h1 class="h1 header__title">Sudoku</h1>
+      <a href="https://en.wikipedia.org/wiki/Sudoku" class="header__link"
+        >How to play?</a
+      >
     </header>
 
     <div class="info">
-        <p class="info__text" id="info-text">
-            Updateable info text
-        </p>
+      <p class="info__text" id="info-text">Updateable info text</p>
     </div>
 
     <main class="content">
-       <div class="content__board" id="sudoku-board">
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-            <button class="content__cell"></button>
-       </div>
-       <ul class="content__controls">
-            <li class="content__option">
-                <button>1</button></li>
-            <li class="content__option"><button>2</button></li>
-            <li class="content__option"><button>3</button></li>
-            <li class="content__option"><button>4</button></li>
-            <li class="content__option"><button>5</button></li>
-            <li class="content__option"><button>6</button></li>
-            <li class="content__option"><button>7</button></li>
-            <li class="content__option"><button>8</button></li>
-            <li class="content__option"><button>9</button></li>
-            <li class="content__option"><button>X</button></li>
-       </ul>
+      <div class="content__board" id="sudoku-board">
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+        <button class="content__cell"></button>
+      </div>
+      <ul class="content__controls">
+        <li class="content__option">
+          <button>1</button>
+        </li>
+        <li class="content__option"><button>2</button></li>
+        <li class="content__option"><button>3</button></li>
+        <li class="content__option"><button>4</button></li>
+        <li class="content__option"><button>5</button></li>
+        <li class="content__option"><button>6</button></li>
+        <li class="content__option"><button>7</button></li>
+        <li class="content__option"><button>8</button></li>
+        <li class="content__option"><button>9</button></li>
+        <li class="content__option"><button>X</button></li>
+      </ul>
     </main>
 
     <div class="game-menu game-menu--invisible" id="game-menu">
-        <h3 class="h3 game-menu__new-game-title">New Game</h3>
-        <ul class="game-menu__options">
-            <li class="game-menu__item">
-                <button class="game-menu__item-link"
-                id="start-easy">
-                    <span class="game-menu__option-text" >Easy</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
+      <h3 class="h3 game-menu__new-game-title">New Game</h3>
+      <ul class="game-menu__options">
+        <li class="game-menu__item">
+          <button class="game-menu__item-link" id="start-easy">
+            <span class="game-menu__option-text">Easy</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
 
-            <li class="game-menu__item">
-                <button class="game-menu__item-link">
-                    <span class="game-menu__option-text">Moderate</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
+        <li class="game-menu__item">
+          <button class="game-menu__item-link">
+            <span class="game-menu__option-text">Moderate</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
 
-            <li class="game-menu__item">
-                <button class="game-menu__item-link">
-                    <span class="game-menu__option-text">Hard</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
+        <li class="game-menu__item">
+          <button class="game-menu__item-link">
+            <span class="game-menu__option-text">Hard</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
 
-            <li class="game-menu__item">
-                <button class="game-menu__item-link">
-                    <span class="game-menu__option-text">Start Over</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
+        <li class="game-menu__item">
+          <button class="game-menu__item-link">
+            <span class="game-menu__option-text">Start Over</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
 
-            <li class="game-menu__item">
-                <button class="game-menu__item-link">
-                    <span class="game-menu__option-text">Solve 1</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
+        <li class="game-menu__item">
+          <button class="game-menu__item-link">
+            <span class="game-menu__option-text">Solve 1</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
 
-            <li class="game-menu__item">
-                <button class="game-menu__item-link">
-                    <span class="game-menu__option-text">Solve All</span>
-                    <svg class="icon game-menu__option-icon">
-                        <use href="img/symbol-defs.svg#icon-undo2">
-                        </use>
-                    </svg>
-                </button>
-            </li>
-        </ul>
+        <li class="game-menu__item">
+          <button class="game-menu__item-link">
+            <span class="game-menu__option-text">Solve All</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
+      </ul>
     </div>
 
     <footer class="footer">
-        <button class="btn">
-            <svg viewBox="0 0 100 100" class="icon footer__icon-back">
-                <use href="img/symbol-defs.svg#icon-undo2">
-                </use>
-            </svg>
-        </button>
-        <button class="btn" id="game-menu-btn" >
-            Game Menu
-        </button>
-        <button class="btn">
-            <svg viewBox="0 0 100 100" class="icon footer__icon-back">
-                <use href="img/symbol-defs.svg#icon-equalizer"></use>
-            </svg>
-        </button>
+      <button class="btn">
+        <svg viewBox="0 0 100 100" class="icon footer__icon-back">
+          <use href="img/symbol-defs.svg#icon-undo2"></use>
+        </svg>
+      </button>
+      <button class="btn" id="game-menu-btn">Game Menu</button>
+      <button class="btn">
+        <svg viewBox="0 0 100 100" class="icon footer__icon-back">
+          <use href="img/symbol-defs.svg#icon-equalizer"></use>
+        </svg>
+      </button>
     </footer>
 
     <script src="js/index.js"></script>
-</body>
+  </body>
 </html>

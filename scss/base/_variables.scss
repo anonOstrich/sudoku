@@ -1,18 +1,15 @@
 :root {
+  --color-gray-light-1: #ddd;
+  --color-gray-light-2: #aaa;
+  --color-gray-dark-1: #777;
+  --color-gray-dark-2: #444;
 
-    --color-gray-light-1: #ddd;
-    --color-gray-light-2: #aaa;
-    --color-gray-dark-1: #777;
-    --color-gray-dark-2: #444;
+  --color-black: #000;
+  --color-white: #fff;
 
-    --color-black: #000;
-    --color-white: #fff;
-
-    --color-primary: #fa4f9f;
-    --color-primary-light: #ff83bd;
-    --color-primary-dark: #ff1381;
-
-
+  --color-primary: #fa4f9f;
+  --color-primary-light: #ff83bd;
+  --color-primary-dark: #ff1381;
 }
 
 $breakpoint-sm: 60em;

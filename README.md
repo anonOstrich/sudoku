@@ -1,2 +1,3 @@
 # sudoku
- Generate and solve Sudoku
+
+Generate and solve Sudoku
