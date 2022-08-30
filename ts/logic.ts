@@ -1,31 +1,91 @@
 // test that this produces reasonable results
-function randomInteger(min: number, max: number) {
-  const width = Math.random() * (max - min + 1)
-  const translated = min + width
-  return Math.floor(translated)
+import {
+  BoardArray,
+  boardIsValid,
+  generateRandomSudoku,
+} from './sudoku_generator'
+import { hide } from './sudoku_generator'
+import { boardIsComplete } from './sudoku_generator'
+
+interface Action {
+  type: string
+  nextAction: PlayableAction | null
+
+  isNullAction: () => this is NullAction
+  isPlayableAction: () => this is PlayableAction
 }
 
-class NullAction {
-  type: ActionType = 'nullAction'
-  nextAction: BoardAction | null = null
+class NullAction implements Action {
+  type = 'nullAction' as const
+  nextAction = null
 
-  isNullAction(): this is NullAction {
+  isNullAction() {
     return true
   }
 
-  isBoardAction(): this is BoardAction {
+  isPlayableAction() {
     return false
   }
 }
 
-type Action = BoardAction | NullAction
-
-type ActionType = 'boardAction' | 'nullAction'
-
-class BoardAction {
-  type: ActionType = 'boardAction'
+interface PlayableAction extends Action {
   prevAction: Action
-  nextAction: BoardAction | null = null
+
+  apply: (board: BoardArray) => void
+  undo: (board: BoardArray) => void
+}
+
+class ResetAction implements PlayableAction {
+  type = 'resetAction' as const
+
+  prevAction: Action
+  nextAction = null
+
+  // You could even make save points!
+  // (With some modifications)
+  resettablePosition: BoardArray
+
+  prevValue: BoardArray | null = null
+  applied: boolean = false
+
+  constructor(prevAction: Action, initialVisibleBoard: BoardArray) {
+    this.resettablePosition = initialVisibleBoard
+    this.prevAction = prevAction
+  }
+
+  public apply(board: BoardArray) {
+    if (!this.applied) {
+      this.prevValue = [...board]
+
+      for (let i = 0; i < this.resettablePosition.length; i++) {
+        board[i] = this.resettablePosition[i]
+      }
+
+      this.applied = true
+    }
+  }
+
+  public undo(board: BoardArray) {
+    if (this.applied && this.prevValue !== null) {
+      for (let i = 0; i < this.prevValue.length; i++) {
+        board[i] = this.prevValue[i]
+      }
+
+      this.applied = false
+    }
+  }
+
+  public isNullAction() {
+    return false
+  }
+  public isPlayableAction() {
+    return true
+  }
+}
+class NumberAction implements PlayableAction {
+  type = 'numberAction' as const
+  prevAction: Action
+  nextAction = null
   private readonly idx: number
   private readonly value: number | null
 
@@ -53,70 +113,96 @@ class BoardAction {
     }
   }
 
-  isNullAction(): this is NullAction {
+  isNullAction() {
     return false
   }
 
-  isBoardAction(): this is BoardAction {
+  isPlayableAction() {
     return true
   }
 }
 
-export class SudokuBoard {
+export class SudokuGame {
   // These are assigned in randomizeBoard, called from constructor
-  private board!: Array<number>
-  private initialVisibleBoard!: Array<number | null>
-  private visibleBoard!: Array<number | null>
+  // private board!: BoardArray
+  private initialVisibleBoard!: BoardArray
+  private visibleBoard!: BoardArray
+  private immutableIndices!: Set<number>
 
   private recentAction: Action = new NullAction()
 
   constructor() {
-    this.randomizeBoard()
+    this.initialize()
   }
 
-  private randomizeBoard() {
-    this.board = [...Array(81)].map((_) => randomInteger(1, 9))
-    let indices = [...Array(81)].map((_, idx) => idx)
-    const chosenIdx = new Set()
-
-    for (let i = 0; i < 30; i++) {
-      const n = indices.length
-      const chosen = randomInteger(0, n - 1)
-      indices = indices.filter((_, idx) => idx !== chosen)
-      chosenIdx.add(chosen)
-    }
-
-    this.initialVisibleBoard = this.board.map((val, idx) =>
-      chosenIdx.has(idx) ? val : null
-    )
+  private initialize(visibleNumbers: number = 30) {
+    // Could be used for later checking if this is indeed unique...
+    // Some savings, definitely!
+    const board = generateRandomSudoku()
+    this.initialVisibleBoard = hide(board, 81 - visibleNumbers)
     this.visibleBoard = [...this.initialVisibleBoard]
+    this.immutableIndices = new Set(
+      this.initialVisibleBoard
+        .map((e, i) => (e === null ? null : i))
+        // type cast is safe -- type is 'number | null' and all null values are filtered out
+        .filter((e) => e !== null) as number[]
+    )
   }
 
-  public getBoard() {
+  public valueAt(idx: number) {
+    return this.visibleBoard[idx]
+  }
+
+  public getBoard(): BoardArray {
     return [...this.visibleBoard]
   }
 
+  public gameIsFilled() {
+    return this.visibleBoard.every((v) => v !== null)
+  }
+
+  public gameIsFailed() {
+    return !boardIsValid(this.visibleBoard)
+  }
+
+  public gameIsWon() {
+    return boardIsComplete(this.visibleBoard)
+  }
+
   // Returns only whether a new action was successfully taken -- the new state must be explicitly fetched afterwards
-  public takeAction(idx: number, val: number): boolean {
-    if (val < 1 || val > 9) {
+  public writeValue(idx: number, val: number | null): boolean {
+    // makes even sense to handle the value?
+    if (val !== null && (val < 1 || val > 9)) {
       return false
     }
-    const newAction = new BoardAction(idx, val, this.recentAction)
-    if (this.recentAction !== null) {
-      this.recentAction.nextAction = newAction
-    }
-    this.recentAction = newAction
 
-    newAction.apply(this.board)
+    // not rewriting the basis of the puzzle?
+    const immutable = this.immutableIndices.has(idx)
+    if (immutable) {
+      return false
+    }
+
+    // not unnecessary duplicate action? (easier for the user to undo)
+    if (this.visibleBoard[idx] === val) {
+      return false
+    }
+
+    const newAction = new NumberAction(idx, val, this.recentAction)
+    console.log('created action: ', newAction)
+    this.addAction(newAction)
 
     return true
+  }
+
+  public emptyCell(idx: number): boolean {
+    return false
   }
 
   public undo(): boolean {
     const action = this.recentAction
 
-    if (action.isBoardAction()) {
-      action.undo(this.board)
+    if (action.isPlayableAction()) {
+      action.undo(this.visibleBoard)
       this.recentAction = action.prevAction
       return true
     }
@@ -128,9 +214,24 @@ export class SudokuBoard {
     const recent = this.recentAction
     if (recent.nextAction !== null) {
       this.recentAction = recent.nextAction
-      recent.nextAction.apply(this.board)
+      recent.nextAction.apply(this.visibleBoard)
       return true
     }
     return false
+  }
+
+  private addAction(action: PlayableAction) {
+    this.recentAction.nextAction = action
+    this.recentAction = action
+    action.apply(this.visibleBoard)
+  }
+
+  public reset() {
+    const resetPoint = new ResetAction(
+      this.recentAction,
+      this.initialVisibleBoard
+    )
+    this.addAction(resetPoint)
+    return true
   }
 }

@@ -1,6 +1,6 @@
 type CellNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
-import { SudokuBoard } from './logic'
-type CellValue = CellNumber | null
+import { SudokuGame } from './logic'
+export type CellValue = CellNumber | null
 
 export type BoardArray = [
   CellValue,
@@ -94,7 +94,7 @@ export type BoardArray = [
   CellValue
 ]
 
-function isCellValue(value: number | null): value is CellValue {
+export function isCellValue(value: number | null): value is CellValue {
   return value === null || [1, 2, 3, 4, 5, 6, 7, 8, 9].includes(value)
 }
 
@@ -345,6 +345,12 @@ function hideOne(board: BoardArray) {
   return false
 }
 
+/**
+ *
+ * @param fullBoard
+ * @param cellsToHide
+ * @returns A new copy with some values turned to null
+ */
 export function hide(fullBoard: BoardArray, cellsToHide: number): BoardArray {
   if (cellsToHide < 0 || cellsToHide > 81) {
     throw new RangeError(
@@ -375,7 +381,7 @@ export function hide(fullBoard: BoardArray, cellsToHide: number): BoardArray {
   return board
 }
 
-function generateSudokuPuzzle(filledValues: number): BoardArray {
+export function generateSudokuPuzzle(filledValues: number = 30): BoardArray {
   // 1. Geneerate
   // 2. Try to hide
   // 3. Fail?
@@ -387,6 +393,9 @@ function generateSudokuPuzzle(filledValues: number): BoardArray {
   // Might be optimization steps to find as well
   // A good project to use WebWorkers? Premium accounts with AWS lambda and parallelization?
   // Premium accounts?
+
+  // Hard-coded for MVP
+  const hiddenValues = 81 - filledValues
   const board = generateRandomSudoku()
-  return board
+  return hide(board, 50)
 }

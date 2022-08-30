@@ -1,4 +1,5 @@
-import { SudokuBoard } from './logic'
+import { SudokuInterface } from './game_interface'
+import { SudokuGame } from './logic'
 import {
   ElementsByTagNames,
   TagName,
@@ -14,7 +15,7 @@ const infoTextEl = getElementWithId('info-text', 'P')
 const startEasyBtn = getElementWithId('start-easy', 'BUTTON')
 const boardEl = getElementWithId('sudoku-board', 'DIV')
 
-function updateInfo(text: string) {
+export function updateInfo(text: string) {
   infoTextEl.innerText = text
 }
 
@@ -26,7 +27,6 @@ const gameMenuHandler = {
   menu: gameMenuDiv,
   visible: false,
   toggleVisibility: () => {
-    console.log('Toggling!')
     if (gameMenuHandler.menu.className.includes('invisible')) {
       gameMenuHandler.menu.className = gameMenuHandler.menu.className.replace(
         'invisible',
@@ -41,7 +41,7 @@ const gameMenuHandler = {
   },
 }
 
-function getElementWithId<T extends TagName>(
+export function getElementWithId<T extends TagName>(
   id: string,
   tagName: T
 ): ElementsByTagNames[T] {
@@ -58,58 +58,51 @@ function getElementWithId<T extends TagName>(
   throw new Error('Cannot continue without the element.')
 }
 
-function drawBoard(board: SudokuBoard) {
-  console.log('Here 1???')
-  const visibleBoard = board.getBoard()
-  console.log('Here?')
-  const cells = boardEl.children
-  for (let i = 0; i < 81; i++) {
-    cells[i].textContent =
-      visibleBoard[i] === null ? '' : String(visibleBoard[i])
+// I think only HTML elements have style
+function isHTMLElement(el: Element): el is HTMLElement {
+  return 'style' in el
+}
+
+export function getElementsWithClassName<T extends TagName>(
+  className: string,
+  tag: T
+): Array<ElementsByTagNames[T]> {
+  const els = [...document.getElementsByClassName(className)]
+
+  if (!els.every(isHTMLElement)) throw new Error('Voi itku')
+
+  const res: Array<ElementsByTagNames[T]> = []
+
+  for (let el of els) {
+    if (isElementWithTag(el, tag)) res.push(el)
   }
+
+  return res
 }
 
 type difficulty = 'easy'
 
 function beginNewGame(diff: difficulty) {
   updateInfo(`Beginning new game (${diff})`)
-  const board = new SudokuBoard()
-  drawBoard(board)
-  console.log(`Board: `, board)
-  // reveal board
+
+  const game = new SudokuGame()
+  const controls = getElementsWithClassName('content__option', 'LI').map(
+    (el) => el.children[0]
+  ) as HTMLButtonElement[]
+  const ui = new SudokuInterface(
+    [...boardEl.children] as HTMLElement[],
+    controls,
+    game
+  )
+  ui.drawWholeBoard()
 }
 
-function attachEventListeners() {
+function main() {
   gameMenuHandler.init()
   startEasyBtn.onclick = () => {
     gameMenuHandler.toggleVisibility()
     beginNewGame('easy')
   }
-  const cells = boardEl.children
-  for (let i = 0; i < cells.length; i++) {
-    cells[i].addEventListener('keydown', (event: KeyboardEventInit) => {
-      if (
-        [
-          'Digit1',
-          'Digit2',
-          'Digit3',
-          'Digit4',
-          'Digit5',
-          'Digit6',
-          'Digit7',
-          'Digit8',
-          'Digit9',
-        ].includes(event.code!)
-      ) {
-        const char = event.code!.charAt(5)
-        cells[i].textContent = char
-      }
-    })
-  }
-}
-
-function main() {
-  attachEventListeners()
   updateInfo('Welcome to the game!')
 }
 

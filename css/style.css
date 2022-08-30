@@ -231,7 +231,9 @@ body {
   padding-bottom: 1.5rem;
   font-size: 1.6rem;
   display: grid;
-  grid-template-columns: max-content minmax(max-content, 30rem) max-content;
+  grid-template-columns: min-content min-content minmax(max-content, 30rem) max-content;
   justify-content: center;
-  column-gap: 2rem;
+  column-gap: 1rem;
   width: 100%; }
+  .footer__icon-forward {
+    transform: rotateY(180deg); }

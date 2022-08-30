@@ -2,12 +2,13 @@ export type ElementsByTagNames = {
   BUTTON: HTMLButtonElement
   DIV: HTMLDivElement
   P: HTMLParagraphElement
+  LI: HTMLLIElement
 }
 
 export type TagName = keyof ElementsByTagNames
 
 export function isElementWithTag<T extends TagName>(
-  el: HTMLElement | null,
+  el: Element | null,
   name: T
 ): el is ElementsByTagNames[T] {
   if (el === null) {
