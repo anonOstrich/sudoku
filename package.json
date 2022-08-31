@@ -13,8 +13,10 @@
     "sass:watch": "node-sass scss/styles.scss css/style.css -w",
     "ts:transpile": "esbuild ts/index.ts --bundle --outfile=js/index.js",
     "ts:transpile-watch": "esbuild ts/index.ts --bundle --watch --outfile=js/index.js",
+    "ts:transpile-ww": "esbuild ts/worker_code.ts --bundle --outfile=js/worker_code.js",
+    "ts:transpile-ww-watch": "esbuild ts/worker_code.ts --bundle --watch --outfile=js/worker_code.js",
     "js:transpile-production": "esbuild ts/index.ts --bundle --minify --sourcemap --target=chrome58,firefox57,safari11,edge16 --outfile=js/index.js",
-    "start": "npm-run-all --parallel sass:watch ts:transpile-watch devserver ",
+    "start": "npm-run-all --parallel sass:watch ts:transpile-ww-watch ts:transpile-watch devserver ",
     "format": "prettier --write .",
     "": "frustrating, the issue below. But works :whatever:",
     "fix-osx": "find node_modules -name '*.js' | xargs sudo dos2unix"

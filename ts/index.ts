@@ -107,3 +107,14 @@ function main() {
 }
 
 main()
+
+async function testWorker() {
+  const bgWorker = new Worker('js/worker_code.js')
+
+  bgWorker.onmessage = (e) => {
+    const { data } = e
+    console.log('received! ', data)
+  }
+}
+
+testWorker()
