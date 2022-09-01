@@ -397,5 +397,5 @@ export function generateSudokuPuzzle(filledValues: number = 30): BoardArray {
   // Hard-coded for MVP
   const hiddenValues = 81 - filledValues
   const board = generateRandomSudoku()
-  return hide(board, 50)
+  return hide(board, hiddenValues)
 }

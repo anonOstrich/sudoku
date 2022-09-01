@@ -1,10 +1,13 @@
 import { SudokuInterface } from './game_interface'
 import { SudokuGame } from './logic'
+import { BoardArray } from './sudoku_generator'
 import {
   ElementsByTagNames,
   TagName,
   isElementWithTag,
 } from './utils/type_checkers'
+import { WorkerResponse } from './worker_code'
+import { WorkerThreadManager } from './worker_thread_utils'
 
 /**
  * Find references to all the relevant components
@@ -82,10 +85,12 @@ export function getElementsWithClassName<T extends TagName>(
 
 type difficulty = 'easy'
 
-function beginNewGame(diff: difficulty) {
+async function beginNewGame(diff: difficulty) {
   updateInfo(`Beginning new game (${diff})`)
 
-  const game = new SudokuGame()
+  console.log('creating?')
+  const game = await SudokuGame.createGame(30)
+  console.log('created!')
   const controls = getElementsWithClassName('content__option', 'LI').map(
     (el) => el.children[0]
   ) as HTMLButtonElement[]
@@ -108,13 +113,15 @@ function main() {
 
 main()
 
+// Don't know if this is the best API for using the worker thread. Beats raw message handlers when just the result is needed after some time, for sure...
+/*
 async function testWorker() {
-  const bgWorker = new Worker('js/worker_code.js')
-
-  bgWorker.onmessage = (e) => {
-    const { data } = e
-    console.log('received! ', data)
-  }
+  const res = await WorkerThreadManager.postMessage({
+    type: 'generate-sudoku',
+    visibleNumbers: 50
+  })
+  console.log(res)
 }
 
 testWorker()
+*/

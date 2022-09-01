@@ -6,6 +6,7 @@ import {
 } from './sudoku_generator'
 import { hide } from './sudoku_generator'
 import { boardIsComplete } from './sudoku_generator'
+import { WorkerThreadManager } from './worker_thread_utils'
 
 interface Action {
   type: string
@@ -131,16 +132,34 @@ export class SudokuGame {
 
   private recentAction: Action = new NullAction()
 
-  constructor() {
-    this.initialize()
+  // Since constructors cannot be async, this is the workaround
+  public static async createGame(visibleNumbers: number = 30) {
+    const game = new SudokuGame() // visibleNumbers
+
+    await game.initialize(visibleNumbers)
+    return game
   }
 
-  private initialize(visibleNumbers: number = 30) {
+  private constructor() {
+    // this.initialize(visibleNumbers)
+  }
+
+  private async initialize(visibleNumbers: number) {
     // Could be used for later checking if this is indeed unique...
     // Some savings, definitely!
-    const board = generateRandomSudoku()
-    this.initialVisibleBoard = hide(board, 81 - visibleNumbers)
+
+    console.log('initializing the sudoku')
+    const { data, processingTime } = await WorkerThreadManager.postMessage({
+      type: 'generate-sudoku',
+      visibleNumbers: visibleNumbers,
+    })
+    console.log('awaited and the promise was resolved?')
+    console.log('Time to create board: ', processingTime)
+    const board = data
+    this.initialVisibleBoard = board
     this.visibleBoard = [...this.initialVisibleBoard]
+    // this.initialVisibleBoard = hide(board, 81 - visibleNumbers)
+    // this.visibleBoard = [...this.initialVisibleBoard]
     this.immutableIndices = new Set(
       this.initialVisibleBoard
         .map((e, i) => (e === null ? null : i))
