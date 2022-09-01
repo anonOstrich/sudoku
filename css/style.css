@@ -34,6 +34,18 @@ html {
   fill: var(--color-white);
   display: inline-block; }
 
+.content {
+  position: relative; }
+  .content__loader {
+    position: absolute;
+    backdrop-filter: blur(5px) brightness(50%);
+    height: 100%;
+    z-index: 10000; }
+    .content__loader--invisible {
+      width: 0%; }
+    .content__loader--visible {
+      width: 100%; }
+
 *,
 *::before,
 *::after {

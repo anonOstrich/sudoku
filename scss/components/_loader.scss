@@ -1,0 +1,24 @@
+.content {
+    position: relative;
+
+    &__loader {
+        position: absolute;
+        backdrop-filter: blur(5px) brightness(50%);
+
+        height: 100%;
+        z-index: 10000;
+        // transition: all 0.2s;
+
+        // Direction of transition could depend on the orientation of the screen? Tho how many will notice?
+        &--invisible {
+            width: 0%;
+        }
+
+        &--visible {
+            width: 100%;
+        }
+
+
+    }
+}
+
