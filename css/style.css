@@ -36,6 +36,11 @@ html {
 
 .content {
   position: relative; }
+  .content__filter {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: red; }
   .content__loader {
     position: absolute;
     backdrop-filter: blur(5px) brightness(50%);

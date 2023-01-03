@@ -85,12 +85,40 @@ export function getElementsWithClassName<T extends TagName>(
 
 type difficulty = 'easy'
 
+class LoaderUtility {
+    private static loaderEl: HTMLDivElement = getElementWithId('loader-screen', 'DIV')
+
+    private static initialize() {
+      if (this.loaderEl === null) {
+        this.loaderEl = getElementWithId('loader-screen', 'DIV')
+      }
+    }
+
+    public static startLoader() {
+      this.loaderEl.className = this.loaderEl.className.replace('invisible', 'visible')
+    }
+
+    public static endLoader() {
+
+      this.loaderEl.className = this.loaderEl.className.replace('visible', 'invisible')
+
+    }
+
+    public static async wrapThingie<T>(task: () => Promise<T>) {
+      this.startLoader()
+      const result = await task()
+      this.endLoader()
+      return result
+    }
+}
+
 async function beginNewGame(diff: difficulty) {
   updateInfo(`Beginning new game (${diff})`)
 
-  console.log('creating?')
-  const game = await SudokuGame.createGame(30)
-  console.log('created!')
+  const game = await LoaderUtility.wrapThingie(
+    () => SudokuGame.createGame(30)
+  )
+
   const controls = getElementsWithClassName('content__option', 'LI').map(
     (el) => el.children[0]
   ) as HTMLButtonElement[]
