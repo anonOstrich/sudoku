@@ -1,3 +1,5 @@
+console.log('Before importing!')
+
 import { SudokuGame } from './logic'
 import {
   BoardArray,
@@ -71,7 +73,9 @@ function handleMessage(e: MessageEvent<WorkerMessage>) {
 }
 
 async function main() {
+  console.log('executing main')
   self.onmessage = handleMessage
 }
 
+console.log('Still executing module code')
 main()

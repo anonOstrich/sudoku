@@ -1,16 +1,22 @@
-import { ResponseThinker, WorkerMessage, WorkerResponse } from './worker_code'
+import { ResponseThinker, WorkerMessage, WorkerResponse } from './worker_code';
 
 export class WorkerThreadManager {
-  private static workerInstance: Worker | null = null
+  private static workerInstance: Worker | null = null;
 
   // Does this prevent the user from being able to call as new? Hope so but nbd either way
-  private constructor() {}
+  private constructor() {
+    throw new Error('no!');
+  }
 
   public static getInstance() {
     if (this.workerInstance === null) {
-      this.workerInstance = new Worker('ts/worker_code.ts', { type: 'module' })
+      console.log('About to generate the worker instance!');
+      const url = (this.workerInstance = new Worker(
+        new URL('./worker_code', import.meta.url),
+        { type: 'module' }
+      ));
     }
-    return this.workerInstance
+    return this.workerInstance;
   }
 
   public static async postMessage<T extends WorkerMessage>(
@@ -20,11 +26,11 @@ export class WorkerThreadManager {
       this.getInstance().addEventListener(
         'message',
         (e: MessageEvent<ResponseThinker<T>>) => {
-          console.log('received from worker!')
-          res(e.data)
+          console.log('received from worker!');
+          res(e.data);
         }
-      )
-      this.getInstance().postMessage(msg)
-    })
+      );
+      this.getInstance().postMessage(msg);
+    });
   }
 }
