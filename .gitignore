@@ -129,3 +129,4 @@ dist
 
 # Own additions
 js
+.DS_Store

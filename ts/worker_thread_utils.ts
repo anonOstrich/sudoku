@@ -8,7 +8,7 @@ export class WorkerThreadManager {
 
   public static getInstance() {
     if (this.workerInstance === null) {
-      this.workerInstance = new Worker('js/worker_code.js')
+      this.workerInstance = new Worker('ts/worker_code.ts', { type: 'module' })
     }
     return this.workerInstance
   }
