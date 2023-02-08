@@ -20,6 +20,14 @@ body {
   color: var(--color-white);
   font-family: 'Ubuntu', sans-serif;
   position: relative;
+
+  //
+  @media screen and (orientation: landscape) and (max-height: 40rem) {
+    row-gap: 0;
+    grid-template-columns: repeat(10, 2fr);
+    grid-template-rows: 1fr 6fr;
+    column-gap: 1.25rem;
+  }
 }
 
 .header {
@@ -28,6 +36,10 @@ body {
   width: 100%;
   justify-content: space-evenly;
   align-items: center;
+
+  @media screen and (orientation: landscape) and (max-height: 40rem) {
+    grid-column: 1 / 6;
+  }
 }
 
 .info {
@@ -37,6 +49,16 @@ body {
   justify-content: center;
   align-items: center;
   font-size: 1.75rem;
+
+  @media screen and (orientation: landscape) and (max-height: 40rem) {
+    grid-column: 6 / -1;
+    // max-width: 10vw;
+  }
+
+  &__text {
+    word-wrap: break-word;
+    max-width: 100%;
+  }
 }
 
 .content {
@@ -51,6 +73,19 @@ body {
   padding: 1rem 0.5rem;
   align-items: end;
   justify-items: center;
+
+  @media screen and (orientation: landscape) and (min-width: 30rem) {
+    grid-template-rows: 1fr;
+    grid-template-columns: 3fr 2fr;
+    row-gap: 0;
+    column-gap: 2rem;
+    align-items: center;
+    justify-content: center;
+  }
+
+  @media screen and (orientation: landscape) and (max-height: 40rem) {
+    grid-column: 1 / 9;
+  }
 
   &__board {
     width: 95vw;
@@ -67,6 +102,11 @@ body {
     background-color: var(--color-gray-dark-1);
     border-radius: 1rem;
     z-index: 15;
+
+    @media screen and (orientation: landscape) and (min-width: 30rem) {
+      max-width: min(40rem, 75vh);
+      max-height: min(40rem, 75vh);
+    }
   }
 
   &__cell {
@@ -172,6 +212,13 @@ body {
     color: var(--color-gray-light-2);
     background-color: var(--color-gray-light-2);
     border: none;
+
+    @media screen and (orientation: landscape) and (min-width: 30rem) {
+      grid-template-rows: repeat(5, 1fr);
+      grid-template-columns: repeat(2, 1fr);
+      max-width: 18rem;
+      align-self: center;
+    }
   }
 
   &__option {
@@ -277,7 +324,7 @@ body {
   padding: 0.5rem 2rem;
   font-size: 1.6rem;
   display: grid;
-  // grid-template-columns: min-content min-content minmax(max-content, 30rem) max-content;
+
   grid-template-columns: auto auto minmax(max-content, 20rem) auto;
   grid-template-rows: 1fr; //minmax(max-content, 4rem);
   justify-content: center;
@@ -285,6 +332,15 @@ body {
   column-gap: 1rem;
   height: 100%;
   width: 100%;
+
+  @media screen and (orientation: landscape) and (max-height: 40rem) {
+    grid-column: 9 / 11;
+    grid-template-rows: auto auto minmax(max-content, 10rem) auto;
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 1rem;
+    align-items: stretch;
+  }
 
   // Get the right icon instead once you have energy
   &__icon-forward {
