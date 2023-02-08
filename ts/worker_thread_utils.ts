@@ -11,10 +11,10 @@ export class WorkerThreadManager {
   public static getInstance() {
     if (this.workerInstance === null) {
       console.log('About to generate the worker instance!');
-      const url = (this.workerInstance = new Worker(
+      this.workerInstance = new Worker(
         new URL('./worker_code', import.meta.url),
         { type: 'module' }
-      ));
+      );
     }
     return this.workerInstance;
   }

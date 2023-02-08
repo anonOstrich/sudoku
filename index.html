@@ -29,7 +29,7 @@
     <main class="content">
       <div
         id="surface-screen"
-        class="content__filter content__filter--visible"
+        class="content__filter content__filter--invisible"
       ></div>
       <div
         id="loader-screen"
@@ -147,8 +147,8 @@
         </li>
 
         <li class="game-menu__item">
-          <button class="game-menu__item-link">
-            <span class="game-menu__option-text">Moderate</span>
+          <button class="game-menu__item-link" id="start-medium">
+            <span class="game-menu__option-text">Medium</span>
             <svg class="icon game-menu__option-icon">
               <use href="img/symbol-defs.svg#icon-undo2"></use>
             </svg>
@@ -156,8 +156,17 @@
         </li>
 
         <li class="game-menu__item">
-          <button class="game-menu__item-link">
+          <button class="game-menu__item-link" id="start-hard">
             <span class="game-menu__option-text">Hard</span>
+            <svg class="icon game-menu__option-icon">
+              <use href="img/symbol-defs.svg#icon-undo2"></use>
+            </svg>
+          </button>
+        </li>
+
+        <li class="game-menu__item">
+          <button class="game-menu__item-link" id="start-expert">
+            <span class="game-menu__option-text">Expert</span>
             <svg class="icon game-menu__option-icon">
               <use href="img/symbol-defs.svg#icon-undo2"></use>
             </svg>

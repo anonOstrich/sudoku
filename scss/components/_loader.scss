@@ -1,41 +1,36 @@
 .content {
-    position: relative;
+  position: relative;
 
-    &__filter {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        background-color: red;
+  &__filter {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: red;
+    z-index: -10;
 
-        &--visible {
-
-        }
-
-        &--invisible {
-
-        }
-
+    &--visible {
+      z-index: 100;
     }
 
-    &__loader {
-        position: absolute;
-        backdrop-filter: blur(5px) brightness(50%);
+    &--invisible {
+    }
+  }
 
-        height: 100%;
-        z-index: 10000;
-        // transition: all 0.2s;
+  &__loader {
+    position: absolute;
+    backdrop-filter: blur(5px) brightness(50%);
 
-        // Direction of transition could depend on the orientation of the screen? Tho how many will notice?
-        &--invisible {
-            width: 0%;
-        }
+    height: 100%;
+    z-index: 10000;
+    // transition: all 0.2s;
 
-        &--visible {
-            width: 100%;
-        }
-
-
+    // Direction of transition could depend on the orientation of the screen? Tho how many will notice?
+    &--invisible {
+      width: 0%;
     }
 
+    &--visible {
+      width: 100%;
+    }
+  }
 }
-
