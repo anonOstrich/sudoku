@@ -136,6 +136,7 @@ body {
     z-index: 20;
 
     &:focus,
+    &:hover,
     &:active {
       outline: red 0.25rem solid;
 
