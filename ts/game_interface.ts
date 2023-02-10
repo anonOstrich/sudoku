@@ -81,6 +81,7 @@ export class SudokuInterface {
     const cells = this.sudokuCells;
     for (let i = 0; i < cells.length; i++) {
       cells[i].onclick = () => {
+        cells[i].focus();
         this.updateInfo(`clicked`);
       };
       cells[i].addEventListener('keydown', (event: KeyboardEventInit) => {
