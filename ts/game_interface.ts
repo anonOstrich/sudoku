@@ -33,6 +33,7 @@ export class SudokuInterface {
 
   constructor(uiElements: UIDOMElements, game: SudokuGame | null) {
     this.game = game;
+
     this.undoButton = uiElements.undoButton;
     this.redoButton = uiElements.redoButton;
     this.resetButton = uiElements.resetButton;
@@ -42,11 +43,27 @@ export class SudokuInterface {
     this.updateInfo = createInfoUpdater(uiElements.textDisplayElement);
 
     this.attachEventListeners();
+    if (game != null) {
+      this.setAddedElementStyles();
+    }
   }
 
   public setGame(game: SudokuGame) {
     this.game = game;
+    this.setAddedElementStyles();
     this.drawWholeBoard();
+  }
+
+  private setAddedElementStyles() {
+    if (this.game == null) {
+      throw new Error('Not callable with null board');
+      this.updateInfo(`Tried to initialize with an empty game :(`);
+    }
+    this.sudokuCells.forEach((el, idx) => {
+      if (!this.game?.isOriginalValue(idx)) {
+        el.classList.add('content__cell--added');
+      }
+    });
   }
 
   private attachEventListeners() {
@@ -80,10 +97,11 @@ export class SudokuInterface {
     // THE CELLS OF THE BOARD ITSELF
     const cells = this.sudokuCells;
     for (let i = 0; i < cells.length; i++) {
+      // Without this the cell doesn't remain active on iOS browsers.... xD
       cells[i].onclick = () => {
         cells[i].focus();
-        this.updateInfo(`clicked`);
       };
+
       cells[i].addEventListener('keydown', (event: KeyboardEventInit) => {
         this.updateInfo(`keydown! ${event.code}`);
         if (

@@ -111,18 +111,19 @@ body {
 
   &__cell {
     // rid of button formatting
+
+    // Initial values are differentiated
+    color: var(--color-primary-dark);
+
     border: none;
     cursor: pointer;
     font-size: inherit;
     font-style: inherit;
-    color: inherit;
 
     width: 100%;
     height: 100%;
     background-color: var(--color-gray-dark-2);
-    // box-sizing: content-box;
-    // border: transparent 2px solid;
-    // border: var(--color-gray-dark-2) 2px solid;
+
     margin: 0;
     padding: 0;
     position: relative;
@@ -131,8 +132,7 @@ body {
     align-items: center;
     font-size: 3rem;
     line-height: 1px;
-    // height: 11vw;
-    box-sizing: border-box;
+    box-sizing: borTest seder-box;
     z-index: 20;
 
     &:focus,
@@ -145,8 +145,9 @@ body {
       }
     }
 
+    // For user-added numbers
     &--added {
-      color: var(--color-primary-dark);
+      color: inherit;
     }
 
     &:nth-child(3n)::before {

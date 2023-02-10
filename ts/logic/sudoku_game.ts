@@ -49,6 +49,10 @@ export class SudokuGame {
     return boardIsComplete(this.visibleBoard);
   }
 
+  public isOriginalValue(idx: number) {
+    return this.immutableIndices.has(idx);
+  }
+
   // Returns only whether a new action was successfully taken -- the new state must be explicitly fetched afterwards
   public writeValue(idx: number, val: number | null): boolean {
     // makes even sense to handle the value?
