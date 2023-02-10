@@ -80,15 +80,11 @@ export class SudokuInterface {
     // THE CELLS OF THE BOARD ITSELF
     const cells = this.sudokuCells;
     for (let i = 0; i < cells.length; i++) {
-      cells[i].addEventListener('touchstart', () => {
-        console.log(`touch start!`);
-      });
-
-      cells[i].addEventListener('touchend', (e) => {
-        // e.preventDefault();
-        console.log(`touch end!`);
-      });
+      cells[i].onclick = () => {
+        this.updateInfo(`clicked`);
+      };
       cells[i].addEventListener('keydown', (event: KeyboardEventInit) => {
+        this.updateInfo(`keydown! ${event.code}`);
         if (
           [
             'Digit1',
