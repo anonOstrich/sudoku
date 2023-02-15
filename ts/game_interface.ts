@@ -20,7 +20,7 @@ export interface UIDOMElements {
 For forwarding inputs to the game and for displaying the game state changes in the UI (i.e. DOM)
 */
 export class SudokuInterface {
-  private game: SudokuGame | null;
+  game: SudokuGame | null;
 
   private sudokuCells: HTMLElement[];
   private controlGridCells: HTMLElement[];
@@ -128,7 +128,6 @@ export class SudokuInterface {
         ) {
           const char = event.code!.charAt(5);
           const conversion = char === '' ? null : Number(char);
-          console.log('converted: ', conversion);
           if (isCellValue(conversion)) {
             this.insertValue(i, conversion);
           }
@@ -195,7 +194,6 @@ export class SudokuInterface {
   private updateEl(idx: number) {
     if (this.game == null) return;
     const rawValue = this.game.valueAt(idx);
-    console.log('raw Value: ', rawValue);
     const displayedValue = rawValue === null ? '' : String(rawValue);
     this.sudokuCells[idx].textContent = displayedValue;
   }
@@ -205,7 +203,6 @@ export class SudokuInterface {
 
     const success = this.game.writeValue(idx, value);
     if (success) {
-      console.log('SUCCESS');
       this.updateEl(idx);
       if (this.game.gameIsFilled()) {
         if (this.game.gameIsWon()) {

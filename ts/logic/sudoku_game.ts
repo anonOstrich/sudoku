@@ -37,6 +37,10 @@ export class SudokuGame {
     return [...this.visibleBoard];
   }
 
+  public getInitialBoard(): BoardArray {
+    return [...this.initialVisibleBoard];
+  }
+
   public gameIsFilled() {
     return this.visibleBoard.every((v) => v !== null);
   }
@@ -116,5 +120,17 @@ export class SudokuGame {
     );
     this.addAndApplyAction(resetPoint);
     return true;
+  }
+
+  public getAllActions() {
+    const actions: Array<Action> = [];
+
+    let action = this.recentAction;
+    while (action.isPlayableAction()) {
+      actions.push(action);
+      action = action.prevAction;
+    }
+    actions.reverse();
+    return actions;
   }
 }

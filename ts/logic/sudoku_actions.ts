@@ -1,11 +1,45 @@
 import { BoardArray } from './logic';
 
+type ActionType = 'nullAction' | 'resetAction' | 'numberAction';
+
+export type SavedAction =
+  | SavedNullAction
+  | SavedResetAction
+  | SavedNumberAction;
+
+type SavedNullAction = {
+  type: 'nullAction';
+};
+
+type SavedResetAction = {
+  type: 'resetAction';
+};
+
+type SavedNumberAction = {
+  type: 'numberAction';
+  index: number;
+  value: number | null;
+};
+
 export interface Action {
   type: string;
   nextAction: PlayableAction | null;
 
   isNullAction: () => this is NullAction;
   isPlayableAction: () => this is PlayableAction;
+
+  generateSaveAction: () => SavedAction;
+}
+
+function createActionFromSavedAction(saved: SavedAction) {
+  switch (saved.type) {
+    case 'nullAction':
+      return new NullAction();
+    case 'numberAction':
+    case 'resetAction':
+    default:
+      throw new Error(`Malformed saved action: ${saved}`);
+  }
 }
 
 export class NullAction implements Action {
@@ -18,6 +52,10 @@ export class NullAction implements Action {
 
   isPlayableAction() {
     return false;
+  }
+
+  generateSaveAction() {
+    return { type: this.type };
   }
 }
 
@@ -74,6 +112,12 @@ export class ResetAction implements PlayableAction {
   public isPlayableAction() {
     return true;
   }
+
+  generateSaveAction() {
+    return {
+      type: this.type,
+    };
+  }
 }
 
 export class NumberAction implements PlayableAction {
@@ -113,5 +157,13 @@ export class NumberAction implements PlayableAction {
 
   isPlayableAction() {
     return true;
+  }
+
+  generateSaveAction() {
+    return {
+      type: this.type,
+      index: this.idx,
+      value: this.value,
+    };
   }
 }
