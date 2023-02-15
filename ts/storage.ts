@@ -1,23 +1,26 @@
 import { SudokuInterface } from './game_interface';
 import { BoardArray } from './logic/logic';
-import { SavedAction } from './logic/sudoku_actions';
+import { Action, SavedAction } from './logic/sudoku_actions';
 import { SudokuGame } from './logic/sudoku_game';
 
 interface SaveData {
   initialBoard: BoardArray;
   takenActions: Array<SavedAction>;
+  prevActionIdx: number;
 }
 
 export function saveGame(game: SudokuGame) {
   const initialBoard = game.getInitialBoard();
 
   const actions = game.getAllActions().map((a) => a.generateSaveAction());
+  const prevActionIdx = game.getRecentActionIdx();
 
   localStorage.setItem(
     'saveData',
     JSON.stringify({
       initialBoard,
       takenActions: actions,
+      prevActionIdx,
     })
   );
 
@@ -30,8 +33,12 @@ export function loadGame(ui: SudokuInterface) {
     console.log(`No data is saved`);
     return;
   }
-  const { initialBoard, takenActions } = JSON.parse(saved) as SaveData;
+  const { initialBoard, takenActions, prevActionIdx } = JSON.parse(
+    saved
+  ) as SaveData;
   const game = new SudokuGame(initialBoard);
+  let i = 0;
+  let recentAction: Action | null = null;
   for (const action of takenActions) {
     switch (action.type) {
       case 'numberAction':
@@ -40,9 +47,24 @@ export function loadGame(ui: SudokuInterface) {
       case 'resetAction':
         game.reset();
         break;
+      case 'nullAction':
+        console.log(
+          `tried to apply null action -- ignoring this, since it's already done`
+        );
+        break;
       default:
         throw new Error(`Failed loading the action ${action}`);
     }
+    if (i == prevActionIdx) {
+      recentAction = game.recentAction;
+    }
+    i++;
   }
+
+  if (recentAction == null) {
+    throw new Error(`Should not be possible to miss the most recent action...`);
+  }
+  game.undoUntil(recentAction);
+
   ui.setGame(game);
 }

@@ -10,7 +10,7 @@ function main() {
     if (gameUI.game != null) {
       saveGame(gameUI.game);
     }
-  }, 10000);
+  }, 5000);
 }
 
 main();

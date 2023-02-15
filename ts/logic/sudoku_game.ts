@@ -13,7 +13,7 @@ export class SudokuGame {
   private visibleBoard: BoardArray;
   private immutableIndices: Set<number>;
 
-  private recentAction: Action = new NullAction();
+  public recentAction: Action = new NullAction();
 
   constructor(data: BoardArray) {
     // Constructor not meant to be callable
@@ -125,12 +125,34 @@ export class SudokuGame {
   public getAllActions() {
     const actions: Array<Action> = [];
 
-    let action = this.recentAction;
+    let action: null | Action = this.recentAction;
     while (action.isPlayableAction()) {
-      actions.push(action);
+      // actions.push(action);
       action = action.prevAction;
     }
-    actions.reverse();
+    // don't add the first null action, which is applied automatically on game creation
+    action = action.nextAction;
+    while (action != null) {
+      actions.push(action);
+      action = action.nextAction;
+    }
     return actions;
+  }
+
+  public getRecentActionIdx() {
+    const mostRecentAction = this.recentAction;
+    let action = mostRecentAction;
+    let i = 0;
+    while (action.isPlayableAction()) {
+      action = action.prevAction;
+      i++;
+    }
+    return i;
+  }
+
+  public undoUntil(action: Action) {
+    while (this.recentAction != action) {
+      this.undo();
+    }
   }
 }
