@@ -4,7 +4,8 @@ import { createNewSudoku, difficulty } from './sudoku_creator';
 import { getElementWithId } from './utils/dom_wrangling';
 
 const gameMenuBtn = getElementWithId('game-menu-btn', 'BUTTON');
-const gameMenuDiv = getElementWithId('game-menu', 'DIV');
+const gameMenuDiv = getElementWithId('game-menu-container', 'DIV');
+const gameMenuBg = getElementWithId('game-menu-bg', 'DIV');
 
 const startEasyBtn = getElementWithId('start-easy', 'BUTTON');
 const startMediumBtn = getElementWithId('start-medium', 'BUTTON');
@@ -33,6 +34,9 @@ function setupMenuVisibility() {
   };
 
   // TODO: setup an invisible filter outside the modal, add listener to hide the menu by clicking it.
+  gameMenuBg.onclick = function visibilityToggleCreator() {
+    toggleVisibility(gameMenuDiv);
+  };
 }
 
 function newGameHandlerCreator(diff: difficulty, gameUI: SudokuInterface) {

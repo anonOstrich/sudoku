@@ -249,17 +249,22 @@ body {
 }
 
 .game-menu {
-  z-index: 100;
-  position: absolute;
-  bottom: 8rem;
   background-color: var(--color-gray-dark-1);
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 1rem;
-  transition: all 0.5s;
-  transform-origin: bottom center;
-  width: 50vw;
+  min-width: 50vw;
+
+  &__background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    // background-color: green;
+    z-index: -1;
+  }
 
   &__new-game-title {
     display: block;
@@ -308,6 +313,23 @@ body {
     width: 1.5rem;
     height: 1.5rem;
   }
+}
+
+.game-menu-container {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  padding-bottom: 10rem;
+
+  transition: all 0.5s;
+  transform-origin: bottom center;
 
   &--visible {
     transform: scaleY(1);
