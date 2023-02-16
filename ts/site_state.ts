@@ -37,6 +37,7 @@ function setupMenuVisibility() {
 
 function newGameHandlerCreator(diff: difficulty, gameUI: SudokuInterface) {
   return async function newGameHandler() {
+    hideElement(gameMenuDiv);
     const gameCreationTask = async () => {
       const game = await createNewSudoku(diff);
       gameUI.setGame(game);

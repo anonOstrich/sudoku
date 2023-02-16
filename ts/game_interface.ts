@@ -62,6 +62,8 @@ export class SudokuInterface {
     this.sudokuCells.forEach((el, idx) => {
       if (!this.game?.isOriginalValue(idx)) {
         el.classList.add('content__cell--added');
+      } else {
+        el.classList.remove('content__cell--added');
       }
     });
   }
