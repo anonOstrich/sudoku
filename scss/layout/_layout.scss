@@ -31,7 +31,7 @@ body {
 }
 
 .header {
-  background-color: orangered;
+  background-color: var(--color-gray-dark-1);
   display: flex;
   width: 100%;
   justify-content: space-evenly;
@@ -73,6 +73,7 @@ body {
   padding: 1rem 0.5rem;
   align-items: end;
   justify-items: center;
+  background-color: var(--color-gray-light-2);
 
   @media screen and (orientation: landscape) and (min-width: 30rem) {
     grid-template-rows: 1fr;
@@ -137,7 +138,7 @@ body {
 
     &:focus,
     &:active {
-      outline: red 0.25rem solid;
+      outline: var(--color-cell-highlight) 0.25rem solid;
 
       &::before,
       &::after {
@@ -197,7 +198,6 @@ body {
     height: 100%;
     max-height: 41rem;
     align-self: start;
-    background-color: red;
 
     display: grid;
     grid-template-rows: repeat(2, 1fr);
@@ -253,8 +253,13 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border-radius: 1rem;
+  border-radius: 2rem;
   min-width: 50vw;
+
+  font-size: 1.6rem;
+
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  // padding: 1rem;
 
   &__background {
     position: absolute;
@@ -262,21 +267,21 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    // background-color: green;
     z-index: -1;
   }
 
   &__new-game-title {
     display: block;
-    background-color: rebeccapurple;
+    background-color: var(--color-secondary-dark);
     width: 100%;
     text-align: center;
     margin-bottom: 2px;
-    padding: 0.5rem 0;
+    padding: 0.5rem 1rem;
   }
 
   &__options {
     list-style: none;
+    padding: 0;
     padding: 0;
     width: 100%;
     display: grid;
@@ -288,8 +293,8 @@ body {
 
   &__item-link {
     transition: all 0.5s;
-    padding: 1rem 1.8rem;
-    background-color: rebeccapurple;
+    padding: 1rem 2rem;
+    background-color: var(--color-primary);
     font-size: inherit;
     color: inherit;
     font-family: inherit;
@@ -306,7 +311,12 @@ body {
   &__item-link:hover,
   &__item-link:focus {
     outline: none;
-    background-color: orangered;
+    background-color: white;
+    color: var(--color-primary);
+
+    svg {
+      fill: var(--color-primary);
+    }
   }
 
   &__option-icon {
@@ -331,13 +341,27 @@ body {
   transition: all 0.5s;
   transform-origin: bottom center;
 
+  @media only screen and (orientation: landscape) {
+    transform-origin: right center;
+    padding-bottom: 0rem;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
   &--visible {
     transform: scaleY(1);
     opacity: 1;
+    @media only screen and (orientation: landscape) {
+      transform: scaleX(1);
+    }
   }
 
   &--invisible {
     transform: scaleY(0);
+    @media only screen and (orientation: landscape) {
+      transform: scaleX(0);
+    }
     opacity: 0;
   }
 }
