@@ -61,10 +61,10 @@ export function loadGame(ui: SudokuInterface) {
     i++;
   }
 
-  if (recentAction == null) {
-    throw new Error(`Should not be possible to miss the most recent action...`);
+  // If there was a non-null action
+  if (recentAction != null) {
+    game.undoUntil(recentAction);
   }
-  game.undoUntil(recentAction);
 
   ui.setGame(game);
 }
