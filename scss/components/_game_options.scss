@@ -79,6 +79,41 @@
   }
 
   input {
-    padding: 1rem;
+    //padding: 1rem;
+    appearance: none;
+    position: relative;
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  input:hover,
+  input:focus {
+    outline: none;
+  }
+
+  input::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-gray-light-1);
+    border-radius: 5px;
+    border: solid rgba(0, 0, 0, 0.35) 2px;
+    transition: all 0.5s;
+    text-align: center;
+    font-size: 2rem;
+  }
+
+  input:checked::before {
+    content: '✓';
+  }
+
+  input:hover::before,
+  input:focus::before {
+    background-color: white;
+    transform: scale(1.1);
   }
 }
