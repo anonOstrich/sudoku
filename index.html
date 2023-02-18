@@ -211,6 +211,19 @@
       </div>
     </div>
 
+    <div class="game-options__container game-options__container--invisible">
+      <div class="game-options__background" id="game-options__background"></div>
+      <div class="game-options">
+        <h3>Game Options</h3>
+        <ul>
+          <li>
+            <label for="display_errors"> Display errors </label>
+            <input type="checkbox" name="display_errors" id="display_errors" />
+          </li>
+        </ul>
+      </div>
+    </div>
+
     <footer class="footer">
       <button class="btn" id="undo-btn">
         <svg viewBox="0 0 100 100" class="icon footer__icon-back">
@@ -223,7 +236,7 @@
         </svg>
       </button>
       <button class="btn" id="game-menu-btn">Game Menu</button>
-      <button class="btn">
+      <button class="btn" id="game-options-btn">
         <svg viewBox="0 0 100 100" class="icon footer__icon-back">
           <use href="img/symbol-defs.svg#icon-equalizer"></use>
         </svg>

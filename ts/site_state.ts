@@ -1,11 +1,21 @@
 import { SudokuInterface } from './game_interface';
 import loadWithAnimation from './loader';
 import { createNewSudoku, difficulty } from './sudoku_creator';
-import { getElementWithId } from './utils/dom_wrangling';
+import {
+  getElementWithId,
+  getElementsWithClassName,
+} from './utils/dom_wrangling';
 
 const gameMenuBtn = getElementWithId('game-menu-btn', 'BUTTON');
 const gameMenuDiv = getElementWithId('game-menu-container', 'DIV');
 const gameMenuBg = getElementWithId('game-menu-bg', 'DIV');
+
+const gameOptionsBtn = getElementWithId('game-options-btn', 'BUTTON');
+const gameOptionsBg = getElementWithId('game-options__background', 'DIV');
+const gameOptionsContainerEl = getElementsWithClassName(
+  'game-options__container',
+  'DIV'
+)[0];
 
 const startEasyBtn = getElementWithId('start-easy', 'BUTTON');
 const startMediumBtn = getElementWithId('start-medium', 'BUTTON');
@@ -17,7 +27,9 @@ function showElement(el: HTMLElement) {
 }
 
 function hideElement(el: HTMLElement) {
-  el.className = el.className.replace('visible', 'invisible');
+  if (!el.className.includes('invisible')) {
+    el.className = el.className.replace('visible', 'invisible');
+  }
 }
 
 function toggleVisibility(el: HTMLElement) {
@@ -31,6 +43,7 @@ function toggleVisibility(el: HTMLElement) {
 function setupMenuVisibility() {
   gameMenuBtn.onclick = function visibilityToggleCreator() {
     toggleVisibility(gameMenuDiv);
+    hideElement(gameOptionsContainerEl);
   };
 
   // TODO: setup an invisible filter outside the modal, add listener to hide the menu by clicking it.
@@ -57,7 +70,16 @@ function setupNewGames(gameUI: SudokuInterface) {
   startExpertBtn.onclick = newGameHandlerCreator('expert', gameUI);
 }
 
+function setupOptionsVisibility() {
+  gameOptionsBtn.onclick = () => {
+    toggleVisibility(gameOptionsContainerEl);
+    hideElement(gameMenuDiv);
+  };
+  gameOptionsBg.onclick = () => hideElement(gameOptionsContainerEl);
+}
+
 export function setupMenus(gameUI: SudokuInterface) {
   setupMenuVisibility();
+  setupOptionsVisibility();
   setupNewGames(gameUI);
 }
