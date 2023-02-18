@@ -150,6 +150,10 @@ body {
     &--added {
       color: inherit;
     }
+    &--incorrect {
+      // color: var(--color-warning);
+      background-color: rgba(165, 0, 0, 0.628);
+    }
 
     &:nth-child(3n)::before {
       z-index: 10;

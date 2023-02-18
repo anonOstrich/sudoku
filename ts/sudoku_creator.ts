@@ -15,5 +15,6 @@ export async function createNewSudoku(diff: difficulty) {
     type: 'generate-sudoku',
     visibleNumbers: numbersByDifficulty.get(diff) ?? 50,
   });
-  return new SudokuGame(data);
+
+  return new SudokuGame(data[0], data[1]);
 }

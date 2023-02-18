@@ -6,6 +6,7 @@ import {
   getElementsWithClassName,
 } from './utils/dom_wrangling';
 import { createInfoUpdater } from './dom_interface';
+import { Settings, getDefaultSettings } from './settings';
 
 export interface UIDOMElements {
   sudokuCells: HTMLElement[];
@@ -28,6 +29,7 @@ export class SudokuInterface {
   private undoButton: HTMLButtonElement;
   private redoButton: HTMLButtonElement;
   private resetButton: HTMLButtonElement;
+  private settings!: Settings;
 
   private updateInfo: (text: string) => void;
 
@@ -42,6 +44,7 @@ export class SudokuInterface {
     this.controlGridCells = uiElements.controlGridCells;
     this.updateInfo = createInfoUpdater(uiElements.textDisplayElement);
 
+    this.setSettings(getDefaultSettings());
     this.attachEventListeners();
     if (game != null) {
       this.setAddedElementStyles();
@@ -51,7 +54,40 @@ export class SudokuInterface {
   public setGame(game: SudokuGame) {
     this.game = game;
     this.setAddedElementStyles();
+    this.styleIncorrectNumbers();
     this.drawWholeBoard();
+  }
+
+  public setSettings(settings: Settings) {
+    this.settings = settings;
+    this.applySettings();
+  }
+
+  private styleIncorrectNumbers() {
+    const incorrectIndices = this.game?.incorrectIndices();
+    if (incorrectIndices != null) {
+      this.sudokuCells.forEach((el, idx) => {
+        if (incorrectIndices.includes(idx)) {
+          el.classList.add('content__cell--incorrect');
+        } else el.classList.remove('content__cell--incorrect');
+      });
+    }
+  }
+
+  private unstyleIncorrectNumbers() {
+    this.sudokuCells.forEach((e) =>
+      e.classList.remove('content__cell--incorrect')
+    );
+  }
+
+  private applySettings() {
+    // check all the previous errors
+    if (this.settings.displayErrors) {
+      this.styleIncorrectNumbers();
+    } else {
+      this.unstyleIncorrectNumbers();
+    }
+    console.log(`Current settings: ${JSON.stringify(this.settings, null, 2)}`);
   }
 
   private setAddedElementStyles() {
@@ -198,6 +234,10 @@ export class SudokuInterface {
     const rawValue = this.game.valueAt(idx);
     const displayedValue = rawValue === null ? '' : String(rawValue);
     this.sudokuCells[idx].textContent = displayedValue;
+
+    if (this.settings.displayErrors) {
+      this.styleIncorrectNumbers();
+    }
   }
 
   public insertValue(idx: number, value: CellValue) {
@@ -206,6 +246,7 @@ export class SudokuInterface {
     const success = this.game.writeValue(idx, value);
     if (success) {
       this.updateEl(idx);
+
       if (this.game.gameIsFilled()) {
         if (this.game.gameIsWon()) {
           this.updateInfo('CONGRATULATIONS! You solved the sudoku');

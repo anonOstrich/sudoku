@@ -209,7 +209,9 @@ export function hide(fullBoard: BoardArray, cellsToHide: number): BoardArray {
   return board;
 }
 
-export function generateSudokuPuzzle(filledValues = 30): BoardArray {
+export function generateSudokuPuzzle(
+  filledValues = 30
+): [BoardArray, BoardArray] {
   // 1. Geneerate
   // 2. Try to hide
   // 3. Fail?
@@ -225,5 +227,6 @@ export function generateSudokuPuzzle(filledValues = 30): BoardArray {
   // Hard-coded for MVP
   const hiddenValues = 81 - filledValues;
   const board = generateRandomSudoku();
-  return hide(board, hiddenValues);
+  const hidden = hide(board, hiddenValues);
+  return [hidden, board];
 }

@@ -7,10 +7,12 @@ interface SaveData {
   initialBoard: BoardArray;
   takenActions: Array<SavedAction>;
   prevActionIdx: number;
+  solvedBoard: BoardArray;
 }
 
 export function saveGame(game: SudokuGame) {
   const initialBoard = game.getInitialBoard();
+  const solvedBoard = game.getSolvedBoard();
 
   const actions = game.getAllActions().map((a) => a.generateSaveAction());
   const prevActionIdx = game.getRecentActionIdx();
@@ -21,6 +23,7 @@ export function saveGame(game: SudokuGame) {
       initialBoard,
       takenActions: actions,
       prevActionIdx,
+      solvedBoard,
     })
   );
 
@@ -33,10 +36,10 @@ export function loadGame(ui: SudokuInterface) {
     console.log(`No data is saved`);
     return;
   }
-  const { initialBoard, takenActions, prevActionIdx } = JSON.parse(
+  const { initialBoard, takenActions, prevActionIdx, solvedBoard } = JSON.parse(
     saved
   ) as SaveData;
-  const game = new SudokuGame(initialBoard);
+  const game = new SudokuGame(initialBoard, solvedBoard);
   let i = 0;
   let recentAction: Action | null = null;
   for (const action of takenActions) {

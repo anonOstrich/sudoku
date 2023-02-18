@@ -12,11 +12,17 @@ export class SudokuGame {
   private initialVisibleBoard: BoardArray;
   private visibleBoard: BoardArray;
   private immutableIndices: Set<number>;
+  private filledBoard: BoardArray;
 
   public recentAction: Action = new NullAction();
 
-  constructor(data: BoardArray) {
+  constructor(data: BoardArray, completed: BoardArray) {
+    if (completed == null) {
+      console.log('In constructor, this seems impossible...?');
+      throw new Error('WTF');
+    }
     // Constructor not meant to be callable
+    this.filledBoard = completed;
     const board = data;
     this.initialVisibleBoard = board;
     this.visibleBoard = [...this.initialVisibleBoard];
@@ -139,6 +145,10 @@ export class SudokuGame {
     return actions;
   }
 
+  public getSolvedBoard() {
+    return this.filledBoard;
+  }
+
   public getRecentActionIdx() {
     const mostRecentAction = this.recentAction;
     let action = mostRecentAction;
@@ -154,5 +164,16 @@ export class SudokuGame {
     while (this.recentAction != action) {
       this.undo();
     }
+  }
+
+  public incorrectIndices(): number[] {
+    return this.visibleBoard.reduce((acc, el, idx) => {
+      if (el == null) return acc;
+      if (this.filledBoard == null) {
+        console.log(this);
+      }
+      if (el != this.filledBoard[idx]) return [...acc, idx];
+      return acc;
+    }, [] as number[]);
   }
 }

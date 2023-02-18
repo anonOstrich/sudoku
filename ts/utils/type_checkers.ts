@@ -5,6 +5,7 @@ export type ElementsByTagNames = {
   DIV: HTMLDivElement;
   P: HTMLParagraphElement;
   LI: HTMLLIElement;
+  INPUT: HTMLInputElement;
 };
 
 export type TagName = keyof ElementsByTagNames;

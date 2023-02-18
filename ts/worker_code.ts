@@ -26,7 +26,7 @@ export type WorkerResponse<T> = {
 let id = 1;
 
 export type ResponseThinker<T extends WorkerMessage> = T extends GenerateMessage
-  ? WorkerResponse<BoardArray>
+  ? WorkerResponse<[BoardArray, BoardArray]>
   : WorkerResponse<string>;
 
 function wrapWorkerFunction<T>(fn: () => T): WorkerResponse<T> {
