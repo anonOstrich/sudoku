@@ -2,6 +2,7 @@ import { SudokuInterface } from './game_interface';
 import { BoardArray } from './logic/logic';
 import { Action, SavedAction } from './logic/sudoku_actions';
 import { SudokuGame } from './logic/sudoku_game';
+import loadSettings from './settings';
 
 interface SaveData {
   initialBoard: BoardArray;
@@ -68,6 +69,8 @@ export function loadGame(ui: SudokuInterface) {
   if (recentAction != null) {
     game.undoUntil(recentAction);
   }
+
+  ui.setSettings(loadSettings());
 
   ui.setGame(game);
 }

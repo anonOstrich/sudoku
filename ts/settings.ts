@@ -27,9 +27,10 @@ export function getDefaultSettings(): Settings {
   };
 }
 
-function loadSettings() {
+export function loadSettings() {
   const saved = localStorage.getItem('settings');
   if (saved == null) {
+    console.log("loading default settings...")
     return getDefaultSettings();
   }
   return JSON.parse(saved) as Settings;

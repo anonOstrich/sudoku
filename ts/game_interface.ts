@@ -54,7 +54,10 @@ export class SudokuInterface {
   public setGame(game: SudokuGame) {
     this.game = game;
     this.setAddedElementStyles();
-    this.styleIncorrectNumbers();
+    if (this.settings.displayErrors) {
+      this.styleIncorrectNumbers()
+    }
+
     this.drawWholeBoard();
   }
 
@@ -87,7 +90,6 @@ export class SudokuInterface {
     } else {
       this.unstyleIncorrectNumbers();
     }
-    console.log(`Current settings: ${JSON.stringify(this.settings, null, 2)}`);
   }
 
   private setAddedElementStyles() {

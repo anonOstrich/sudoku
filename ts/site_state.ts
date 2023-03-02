@@ -1,6 +1,6 @@
 import { SudokuInterface } from './game_interface';
 import loadWithAnimation from './loader';
-import { SettingsHandler } from './settings';
+import loadSettings, { SettingsHandler } from './settings';
 import { createNewSudoku, difficulty } from './sudoku_creator';
 import {
   getElementWithId,
@@ -88,4 +88,6 @@ export function setupMenus(gameUI: SudokuInterface) {
 export function connectSettingsUI(settingsHandler: SettingsHandler) {
   const checkbox = getElementWithId('display_errors_checkbox', 'INPUT');
   checkbox.onchange = settingsHandler.handleDisplayErrors;
+  const settings = loadSettings()
+  checkbox.checked = settings.displayErrors
 }

@@ -9,6 +9,7 @@ function main() {
   setupMenus(gameUI);
   const settingsHandler = createSettingsHandler(gameUI);
   connectSettingsUI(settingsHandler);
+  
   loadGame(gameUI);
 
   setInterval(() => {
