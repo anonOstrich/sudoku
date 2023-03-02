@@ -1,11 +1,13 @@
 import { BoardArray } from './logic';
 
-type ActionType = 'nullAction' | 'resetAction' | 'numberAction';
+type ActionType = 'nullAction' | 'resetAction' | 'numberAction' | 'cheatNumberAction' | 'cheatAllNumbersAction';
 
 export type SavedAction =
   | SavedNullAction
   | SavedResetAction
-  | SavedNumberAction;
+  | SavedNumberAction
+  | SavedCheatNumberAction
+  | SavedCheatAllNumbersAction
 
 type SavedNullAction = {
   type: 'nullAction';
@@ -21,8 +23,19 @@ type SavedNumberAction = {
   value: number | null;
 };
 
+type SavedCheatNumberAction = {
+  type: 'cheatNumberAction';
+  index: number;
+  value: number | null;
+};
+
+type SavedCheatAllNumbersAction = {
+  type: 'cheatAllNumbersAction'
+}
+
 export interface Action {
   type: string;
+  // Is this used? Not directly by the class itself, at least... 
   nextAction: PlayableAction | null;
 
   isNullAction: () => this is NullAction;
@@ -31,16 +44,6 @@ export interface Action {
   generateSaveAction: () => SavedAction;
 }
 
-function createActionFromSavedAction(saved: SavedAction) {
-  switch (saved.type) {
-    case 'nullAction':
-      return new NullAction();
-    case 'numberAction':
-    case 'resetAction':
-    default:
-      throw new Error(`Malformed saved action: ${saved}`);
-  }
-}
 
 export class NullAction implements Action {
   type = 'nullAction' as const;
@@ -166,4 +169,96 @@ export class NumberAction implements PlayableAction {
       value: this.value,
     };
   }
+}
+
+
+export class CheatNumberAction implements PlayableAction {
+  type = 'cheatNumberAction' as const;
+  prevAction: Action;
+  nextAction = null;
+  private readonly idx: number;
+  private readonly value: number | null;
+
+  private previousValue: number | null = null;
+  private applied = false;
+
+  constructor(idx: number, value: number | null, prevAction: Action) {
+    this.idx = idx;
+    this.value = value;
+    this.prevAction = prevAction;
+  }
+
+  apply(board: Array<number | null>) {
+    if (!this.applied) {
+      this.previousValue = board[this.idx];
+      board[this.idx] = this.value;
+      this.applied = true;
+    }
+  }
+
+  undo(board: Array<number | null>) {
+    if (this.applied) {
+      board[this.idx] = this.previousValue;
+      this.applied = false;
+    }
+  }
+
+  isNullAction() {
+    return false;
+  }
+
+  isPlayableAction() {
+    return true;
+  }
+
+  generateSaveAction() {
+    return {
+      type: this.type,
+      index: this.idx,
+      value: this.value,
+    };
+  }
+}
+
+export class CheatAllNumbersAction implements PlayableAction {
+
+  prevAction: Action
+  type = 'cheatAllNumbersAction' as const;
+  nextAction = null
+
+  private completedBoard: BoardArray
+  private incompleteBoard: BoardArray | null = null
+
+
+  constructor(prevAction: Action, completedBoard: BoardArray) {
+    this.prevAction = prevAction;
+    this.completedBoard = completedBoard;
+  }
+
+  apply = (board: BoardArray) => {
+    this.incompleteBoard = [...board]
+
+    for(let i = 0; i < 81; i++) {
+      if (board[i] == null) board[i] = this.completedBoard[i]
+    }
+  };
+  undo = (board: BoardArray) => {
+    console.log('undoing Big Cheat...')
+    if (this.incompleteBoard == null) throw new Error("Should not be able to undo when incompleteBoard is null....")
+
+    for (let i = 0; i < 81; i++) {
+      if (this.incompleteBoard[i] == null) {
+        board[i] = null
+      }
+    }
+    this.incompleteBoard = null
+  };
+
+
+  isNullAction: () => this is NullAction = () => false;
+  isPlayableAction: () => this is PlayableAction = () => true
+  generateSaveAction = () => ({
+    type: this.type
+  })
+  
 }

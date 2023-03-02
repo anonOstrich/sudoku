@@ -51,6 +51,12 @@ export function loadGame(ui: SudokuInterface) {
       case 'resetAction':
         game.reset();
         break;
+      case 'cheatNumberAction':
+        game.writeValue(action.index, action.value, true)
+        break
+      case 'cheatAllNumbersAction':
+        game.solveAll()
+        break
       case 'nullAction':
         console.log(
           `tried to apply null action -- ignoring this, since it's already done`
@@ -59,7 +65,8 @@ export function loadGame(ui: SudokuInterface) {
       default:
         throw new Error(`Failed loading the action ${action}`);
     }
-    if (i == prevActionIdx) {
+    // Due to inconsistency of the null action being first and not stored...
+    if (i == (prevActionIdx - 1)) {
       recentAction = game.recentAction;
     }
     i++;
@@ -68,6 +75,8 @@ export function loadGame(ui: SudokuInterface) {
   // If there was a non-null action
   if (recentAction != null) {
     game.undoUntil(recentAction);
+  } else {
+    game.undoUntilBeginning()
   }
 
   ui.setSettings(loadSettings());

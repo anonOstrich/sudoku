@@ -1,6 +1,8 @@
 import { BoardArray, boardIsComplete, boardIsValid } from './logic';
 import {
   Action,
+  CheatAllNumbersAction,
+  CheatNumberAction,
   NullAction,
   NumberAction,
   PlayableAction,
@@ -12,6 +14,7 @@ export class SudokuGame {
   private initialVisibleBoard: BoardArray;
   private visibleBoard: BoardArray;
   private immutableIndices: Set<number>;
+  // Could be readonly...
   private filledBoard: BoardArray;
 
   public recentAction: Action = new NullAction();
@@ -64,7 +67,9 @@ export class SudokuGame {
   }
 
   // Returns only whether a new action was successfully taken -- the new state must be explicitly fetched afterwards
-  public writeValue(idx: number, val: number | null): boolean {
+  public writeValue(idx: number, val: number | null,
+    // To generate different actions, which might be fun later on at the end...
+    cheated = false): boolean {
     // makes even sense to handle the value?
     if (val !== null && (val < 1 || val > 9)) {
       return false;
@@ -81,11 +86,22 @@ export class SudokuGame {
       return false;
     }
 
-    const newAction = new NumberAction(idx, val, this.recentAction);
+    const newAction = cheated ? new CheatNumberAction(idx, val, this.recentAction) :  new NumberAction(idx, val, this.recentAction);
     this.addAndApplyAction(newAction);
 
     return true;
   }
+
+
+  public solveAll() {
+    if (this.gameIsFilled()) {
+      return false
+    }
+    const newAction = new CheatAllNumbersAction(this.recentAction, this.filledBoard)
+    this.addAndApplyAction(newAction)
+    return true
+  }
+
 
   public emptyCell(idx: number): boolean {
     return this.visibleBoard[idx] == null
@@ -163,6 +179,13 @@ export class SudokuGame {
   public undoUntil(action: Action) {
     while (this.recentAction != action) {
       this.undo();
+    }
+  }
+
+
+  public undoUntilBeginning(){
+    while (!this.recentAction.isNullAction()) {
+      this.undo()
     }
   }
 

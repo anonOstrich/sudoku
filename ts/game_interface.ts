@@ -237,16 +237,24 @@ export class SudokuInterface {
       throw new Error("There are no empty cells to fill")
     }
 
-    this.insertValue(firstEmptyIdx, this.game.getSolvedBoard()[firstEmptyIdx])
+    this.insertSolvedValue(firstEmptyIdx, this.game.getSolvedBoard()[firstEmptyIdx])
   }
 
   public solveAll(){
     if (this.game == null) return
-    const solvedBoard = this.game?.getSolvedBoard()
 
-    for(let i = 0; i < 81; i++) {
-      if (this.game.emptyCell(i)) {
-        this.insertValue(i, solvedBoard[i])
+    const success = this.game.solveAll()
+    if (!success) {
+      console.error('failed to solve the board')
+    } else {
+      if (this.game.gameIsWon()) {
+        this.updateInfo('CONGRATULATIONS! You solved the sudoku');
+      } else {
+        this.updateInfo('OH NO! Something went awry');
+      }
+
+      for (let i = 0; i < 81; i++) {
+        this.updateEl(i)
       }
     }
   }
@@ -266,6 +274,23 @@ export class SudokuInterface {
     if (this.game == null) return;
 
     const success = this.game.writeValue(idx, value);
+    if (success) {
+      this.updateEl(idx);
+
+      if (this.game.gameIsFilled()) {
+        if (this.game.gameIsWon()) {
+          this.updateInfo('CONGRATULATIONS! You solved the sudoku');
+        } else {
+          this.updateInfo('OH NO! Something went awry');
+        }
+      }
+    }
+  }
+
+  public insertSolvedValue(idx: number, value: CellValue) {
+    if (this.game == null) return;
+
+    const success = this.game.writeValue(idx, value, true);
     if (success) {
       this.updateEl(idx);
 
