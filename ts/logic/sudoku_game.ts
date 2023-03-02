@@ -88,7 +88,7 @@ export class SudokuGame {
   }
 
   public emptyCell(idx: number): boolean {
-    return false;
+    return this.visibleBoard[idx] == null
   }
 
   public undo(): boolean {

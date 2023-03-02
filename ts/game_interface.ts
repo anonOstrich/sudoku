@@ -14,7 +14,6 @@ export interface UIDOMElements {
   textDisplayElement: HTMLParagraphElement;
   undoButton: HTMLButtonElement;
   redoButton: HTMLButtonElement;
-  resetButton: HTMLButtonElement;
 }
 
 /*
@@ -28,7 +27,6 @@ export class SudokuInterface {
 
   private undoButton: HTMLButtonElement;
   private redoButton: HTMLButtonElement;
-  private resetButton: HTMLButtonElement;
   private settings!: Settings;
 
   private updateInfo: (text: string) => void;
@@ -38,7 +36,6 @@ export class SudokuInterface {
 
     this.undoButton = uiElements.undoButton;
     this.redoButton = uiElements.redoButton;
-    this.resetButton = uiElements.resetButton;
 
     this.sudokuCells = uiElements.sudokuCells;
     this.controlGridCells = uiElements.controlGridCells;
@@ -187,10 +184,6 @@ export class SudokuInterface {
       this.redo();
     });
 
-    // And RESET (could also be placed better)
-    this.resetButton.addEventListener('click', () => {
-      this.reset();
-    });
   }
 
   private changeFocusWithArrows(idx: number, event: KeyboardEventInit) {
@@ -227,6 +220,33 @@ export class SudokuInterface {
         if ('focus' in el) {
           (el as HTMLElement).focus();
         }
+      }
+    }
+  }
+
+  public solveOne() {
+    if (this.game == null) return
+    let firstEmptyIdx = -1
+    for(let i = 0; i < 81; i++) {
+      if (this.game.emptyCell(i)) {
+        firstEmptyIdx = i;
+        break
+      }
+    }
+    if (firstEmptyIdx == -1) {
+      throw new Error("There are no empty cells to fill")
+    }
+
+    this.insertValue(firstEmptyIdx, this.game.getSolvedBoard()[firstEmptyIdx])
+  }
+
+  public solveAll(){
+    if (this.game == null) return
+    const solvedBoard = this.game?.getSolvedBoard()
+
+    for(let i = 0; i < 81; i++) {
+      if (this.game.emptyCell(i)) {
+        this.insertValue(i, solvedBoard[i])
       }
     }
   }
@@ -273,7 +293,7 @@ export class SudokuInterface {
     this.drawWholeBoard();
   }
 
-  private reset() {
+  public reset() {
     if (this.game == null) return;
 
     this.game.reset();
@@ -294,7 +314,6 @@ const controlGridCells = getElementsWithClassName('content__option', 'LI').map(
 // RIght now: component responsible for fetching DOM elements, connecting them
 const undoButton = getElementWithId('undo-btn', 'BUTTON');
 const redoButton = getElementWithId('redo-btn', 'BUTTON');
-const resetButton = getElementWithId('reset-btn', 'BUTTON');
 
 const boardEl = getElementWithId('sudoku-board', 'DIV');
 const sudokuCells = [...boardEl.children] as HTMLElement[];
@@ -304,7 +323,6 @@ const textDisplayElement = getElementWithId('info-text', 'P');
 const data: UIDOMElements = {
   controlGridCells,
   redoButton,
-  resetButton,
   sudokuCells,
   textDisplayElement,
   undoButton,

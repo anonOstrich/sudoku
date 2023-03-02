@@ -23,6 +23,11 @@ const startMediumBtn = getElementWithId('start-medium', 'BUTTON');
 const startHardBtn = getElementWithId('start-hard', 'BUTTON');
 const startExpertBtn = getElementWithId('start-expert', 'BUTTON');
 
+const solveOneBtn = getElementWithId('solve-1-btn', 'BUTTON')
+const solveAllBtn = getElementWithId('solve-all-btn', 'BUTTON')
+
+const resetButton = getElementWithId('reset-btn', 'BUTTON');
+
 function showElement(el: HTMLElement) {
   el.className = el.className.replace('invisible', 'visible');
 }
@@ -79,10 +84,30 @@ function setupOptionsVisibility() {
   gameOptionsBg.onclick = () => hideElement(gameOptionsContainerEl);
 }
 
+function setupSolveButtons(gameUI: SudokuInterface) {
+  solveOneBtn.onclick = function(){
+    hideElement(gameMenuDiv)
+    gameUI.solveOne()
+  }
+  solveAllBtn.onclick = function() {
+    hideElement(gameMenuDiv)
+    gameUI.solveAll()
+  }
+}
+
+function setupResetButton(gameUI: SudokuInterface) {
+  resetButton.onclick = function(){
+    hideElement(gameMenuDiv)
+    gameUI.reset()
+  }
+}
+
 export function setupMenus(gameUI: SudokuInterface) {
   setupMenuVisibility();
   setupOptionsVisibility();
   setupNewGames(gameUI);
+  setupResetButton(gameUI)
+  setupSolveButtons(gameUI)
 }
 
 export function connectSettingsUI(settingsHandler: SettingsHandler) {
