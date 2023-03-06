@@ -2,7 +2,7 @@ import { SudokuInterface } from './game_interface';
 import { BoardArray } from './logic/logic';
 import { Action, SavedAction } from './logic/sudoku_actions';
 import { SudokuGame } from './logic/sudoku_game';
-import loadSettings from './settings';
+import loadSettings, { setDarkTheme } from './settings';
 
 interface SaveData {
   initialBoard: BoardArray;
@@ -79,7 +79,9 @@ export function loadGame(ui: SudokuInterface) {
     game.undoUntilBeginning()
   }
 
-  ui.setSettings(loadSettings());
+  const settings = loadSettings()
+  ui.setSettings(settings);
+  setDarkTheme(settings.useDarkTheme)
 
   ui.setGame(game);
 }

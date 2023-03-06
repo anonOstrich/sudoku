@@ -1,22 +1,77 @@
 :root {
-  --color-gray-light-1: #ddd;
-  --color-gray-light-2: #aaa;
-  --color-gray-dark-1: #777;
-  --color-gray-dark-2: #444;
+  --color-primary: #689c31;
+  --color-secondary: #30bcc9;
 
-  --color-black: #000;
-  --color-white: #fff;
+  --color-text: #1d1d1d;
+  --color-bg-cell: #ffffff;
+  --color-highlight-cell: #000;
+  --color-bg-game-area: #b5d593;
+  --color-bg-other-section: #b5d593;
+  --color-square-division: #222;
 
-  --color-primary: #fa4f9f;
-  --color-primary-light: #ff83bd;
-  --color-primary-dark: #ff1381;
+  --color-bg-menu-link: var(--color-primary);
 
-  --color-secondary: rgb(157, 0, 168);
-  --color-secondary-light: rgb(228, 0, 244);
-  --color-secondary-dark: rgb(114, 0, 123);
 
-  --color-cell-highlight: #f8f8f8;
-  --color-warning: rgb(255, 196, 0);
+  --color-menu-link: #fff;
+
+  --color-box-shadow: rgba(0, 0, 0, 0.35);
+  --color-bg-checkbox: #ddd;
+  --color-bg-header: var(--color-primary);
+
+  --color-bg-button: var(--color-primary);
+  --color-bg-button-2: #fff;
+  --color-btn: #fff;
+
+  --color-highlight-error: rgba(227, 0, 0, 0.628);
+}
+
+:root.dark-theme {
+  --color-primary: #30bcc9;
+  --color-secondary: #a9ff4e;
+
+  --color-text: #fff;
+  --color-bg-cell: #444;
+  --color-highlight-cell: #fff;
+  --color-bg-game-area: #000000;
+  --color-bg-other-section: #000000;
+
+  --color-box-shadow: rgba(0, 0, 0, 0.35);
+  --color-bg-checkbox: #ddd;
+  --color-bg-header: var(--color-primary);
+
+  --color-bg-button: #888;
+  --color-bg-button-2: #fff;
+  --color-btn: #fff;
+
+  --color-menu-link: #fff;
+  --color-bg-menu-link: #525252;
+
+
+
+  --color-highlight-error: rgba(165, 0, 0, 0.628);
+  --color-square-division: #222;
+
+}
+
+:root.experimental {
+  --color-primary: #30bcc9;
+  --color-secondary: #a9ff4e;
+
+  --color-text: #fff;
+  --color-bg-cell: #444;
+  --color-highlight-cell: #fff;
+  --color-bg-game-area: #777;
+  --color-bg-other-section: #000;
+
+  --color-box-shadow: rgba(0, 0, 0, 0.35);
+  --color-bg-checkbox: #ddd;
+  --color-bg-header: #444;
+
+  --color-bg-button: #888;
+  --color-bg-button-2: #fff
+
+  --color-highlight-error: rgba(165, 0, 0, 0.628);
+
 }
 
 $breakpoint-sm: 60em;

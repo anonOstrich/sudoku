@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: var(--color-black);
+  background-color: var(--color-bg-other-section);
   width: 100vw;
   height: 100vh;
   //overflow: hidden;
@@ -17,7 +17,7 @@ body {
   justify-content: stretch;
   justify-items: center;
   row-gap: 1.25rem;
-  color: var(--color-white);
+  color: var(--color-text);
   font-family: 'Ubuntu', sans-serif;
   position: relative;
 
@@ -31,7 +31,7 @@ body {
 }
 
 .header {
-  background-color: var(--color-gray-dark-1);
+  background-color: var(--color-bg-header);
   display: flex;
   width: 100%;
   justify-content: space-evenly;
@@ -73,7 +73,7 @@ body {
   padding: 1rem 0.5rem;
   align-items: end;
   justify-items: center;
-  background-color: var(--color-gray-light-2);
+  background-color: var(--color-bg-game-area);
 
   @media screen and (orientation: landscape) and (min-width: 30rem) {
     grid-template-rows: 1fr;
@@ -99,8 +99,6 @@ body {
     grid-template-rows: repeat(9, 1fr);
     row-gap: 0.25rem;
     column-gap: 0.25rem;
-    // overflow: hidden;
-    background-color: var(--color-gray-dark-1);
     border-radius: 1rem;
     z-index: 15;
 
@@ -114,7 +112,7 @@ body {
     // rid of button formatting
 
     // Initial values are differentiated
-    color: var(--color-primary-dark);
+    color: var(--color-secondary);
 
     border: none;
     cursor: pointer;
@@ -123,7 +121,7 @@ body {
 
     width: 100%;
     height: 100%;
-    background-color: var(--color-gray-dark-2);
+    background-color: var(--color-bg-cell);
 
     margin: 0;
     padding: 0;
@@ -138,7 +136,7 @@ body {
 
     &:focus,
     &:active {
-      outline: var(--color-cell-highlight) 0.25rem solid;
+      outline: var(--color-highlight-cell) 0.25rem solid;
 
       &::before,
       &::after {
@@ -151,10 +149,10 @@ body {
       color: inherit;
     }
     &--incorrect {
-      // color: var(--color-warning);
-      background-color: rgba(165, 0, 0, 0.628);
+      background-color: var(--color-highlight-error);
     }
-
+ 
+    // Black vertical bars separating 3x3 squares
     &:nth-child(3n)::before {
       z-index: 10;
       position: absolute;
@@ -164,8 +162,7 @@ body {
       top: 0;
       right: -0.25rem;
       content: '';
-      background-color: var(--color-gray-light-2);
-      // transform: scaleY(1.20);
+      background-color: var(--color-square-division);
       transform: translateY(0.25rem);
     }
 
@@ -182,6 +179,8 @@ body {
       transform: translateX(-0.25rem);
     }
 
+    // cells on the 3rd and 6th rows,
+    // but a separation bar below to make 3x3 squares more apparrent
     &:nth-child(n + 19):nth-child(-n + 27)::after,
     &:nth-child(n + 46):nth-child(-n + 54)::after {
       z-index: 10;
@@ -192,7 +191,8 @@ body {
       bottom: -0.25rem;
       left: 0;
       content: '';
-      background-color: var(--color-gray-light-2);
+      background-color: var(--color-square-division);
+      ;
     }
   }
 
@@ -214,8 +214,7 @@ body {
     border-radius: 0.75rem;
     overflow: hidden;
 
-    color: var(--color-gray-light-2);
-    background-color: var(--color-gray-light-2);
+    color: var(--color-text);
     border: none;
 
     @media screen and (orientation: landscape) and (min-width: 30rem) {
@@ -227,7 +226,7 @@ body {
   }
 
   &__option {
-    background-color: var(--color-gray-dark-2);
+    background-color: var(--color-bg-cell);
 
     display: flex;
     justify-content: center;

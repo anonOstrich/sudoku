@@ -111,8 +111,15 @@ export function setupMenus(gameUI: SudokuInterface) {
 }
 
 export function connectSettingsUI(settingsHandler: SettingsHandler) {
-  const checkbox = getElementWithId('display_errors_checkbox', 'INPUT');
-  checkbox.onchange = settingsHandler.handleDisplayErrors;
+  // Reflect changes in the settings
+  const displayErrorsCheckbox = getElementWithId('display_errors_checkbox', 'INPUT');
+  const useDarkThemeCheckbox = getElementWithId('use_dark_mode_checkbox', 'INPUT')
+  displayErrorsCheckbox.onchange = settingsHandler.handleDisplayErrors;
+  useDarkThemeCheckbox.onchange = settingsHandler.handleUseDarkTheme;
+
+  // Set initial values from the loaded values
   const settings = loadSettings()
-  checkbox.checked = settings.displayErrors
+  displayErrorsCheckbox.checked = settings.displayErrors
+  useDarkThemeCheckbox.checked = settings.useDarkTheme
+  
 }
