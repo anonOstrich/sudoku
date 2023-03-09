@@ -7,7 +7,7 @@ import {
 } from './utils/dom_wrangling';
 import { createInfoUpdater } from './dom_interface';
 import { Settings, getDefaultSettings } from './settings';
-import { setIntervalRenderFunction, startTimer } from './timer';
+import { setIntervalRenderFunction, startTimer, renderTime, setTimeSpent } from './timer';
 
 export interface UIDOMElements {
   sudokuCells: HTMLElement[];
@@ -59,13 +59,18 @@ export class SudokuInterface {
     this.drawWholeBoard();
   }
 
+  public startNewGame() {
+    setTimeSpent(0)
+    this.startGame()
+  }
+
   public startGame(){
     if (this.game == null){
-      console.error("Set game before starting")
       return
     }
 
     startTimer()
+    renderTime((time) => this.updateInfo(time))
 
   }
 
@@ -102,10 +107,13 @@ export class SudokuInterface {
     if (this.settings.displayTimer) {
         setIntervalRenderFunction((time) => {
           this.updateInfo(time)
-          // console.log(time)
         })
+        // Instant refresh on checkbox toggling, 
+        // no need to wait for the next second to turn :3
+        renderTime((time) => this.updateInfo(time))
     } else {
       setIntervalRenderFunction(null)
+      this.updateInfo('')
     }
   }
 

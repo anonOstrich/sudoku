@@ -64,7 +64,7 @@ function newGameHandlerCreator(diff: difficulty, gameUI: SudokuInterface) {
     const gameCreationTask = async () => {
       const game = await createNewSudoku(diff);
       gameUI.setGame(game);
-      gameUI.startGame();
+      gameUI.startNewGame();
     };
     await loadWithAnimation(gameCreationTask);
   };

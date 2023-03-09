@@ -14,7 +14,7 @@ function main() {
 
   setInterval(() => {
     if (gameUI.game != null) {
-      saveGame(gameUI.game);
+      saveGame(gameUI);
     }
   }, 5000);
 }

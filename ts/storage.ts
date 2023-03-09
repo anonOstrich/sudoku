@@ -3,15 +3,22 @@ import { BoardArray } from './logic/logic';
 import { Action, SavedAction } from './logic/sudoku_actions';
 import { SudokuGame } from './logic/sudoku_game';
 import loadSettings, { setDarkTheme } from './settings';
+import { getTimeSpent, setTimeSpent } from './timer';
 
 interface SaveData {
   initialBoard: BoardArray;
   takenActions: Array<SavedAction>;
   prevActionIdx: number;
   solvedBoard: BoardArray;
+  timeSpentOnSudoku: number;
 }
 
-export function saveGame(game: SudokuGame) {
+export function saveGame(ui: SudokuInterface) {
+  const game = ui.game
+  if (game == null) {
+    console.error(`No game to save`)
+    return
+  }
   const initialBoard = game.getInitialBoard();
   const solvedBoard = game.getSolvedBoard();
 
@@ -25,11 +32,14 @@ export function saveGame(game: SudokuGame) {
       takenActions: actions,
       prevActionIdx,
       solvedBoard,
+      timeSpentOnSudoku: getTimeSpent()
     })
   );
 
   console.log(`Saving the game in local storage!`);
 }
+
+
 
 export function loadGame(ui: SudokuInterface) {
   const saved = localStorage.getItem('saveData');
@@ -37,9 +47,14 @@ export function loadGame(ui: SudokuInterface) {
     console.log(`No data is saved`);
     return;
   }
-  const { initialBoard, takenActions, prevActionIdx, solvedBoard } = JSON.parse(
+  const { initialBoard, takenActions, prevActionIdx, solvedBoard, timeSpentOnSudoku } = JSON.parse(
     saved
   ) as SaveData;
+  setTimeSpent(timeSpentOnSudoku ?? 0)
+
+
+  
+
   const game = new SudokuGame(initialBoard, solvedBoard);
   let i = 0;
   let recentAction: Action | null = null;
@@ -84,4 +99,5 @@ export function loadGame(ui: SudokuInterface) {
   setDarkTheme(settings.useDarkTheme)
 
   ui.setGame(game);
+  ui.startGame()
 }

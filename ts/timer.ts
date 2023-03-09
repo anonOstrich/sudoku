@@ -21,9 +21,10 @@ function clearTimer(){
     }
 }
 
+
 export function startTimer() {
+    console.log(`starting timer... ${timePassed}`)
     clearTimer()
-    timePassed = 0
     id = window.setInterval(() => {
         timePassed++
         if (renderFunction != null) {
@@ -38,6 +39,7 @@ export function pauseTimer() {
 
 
 export function renderTime(renderFn: (x: string) => void) {
+    console.log(`renreding once... ${timePassed}`)
     renderFn(formatTime())
 }
 
@@ -46,5 +48,9 @@ export function setIntervalRenderFunction(renderFn: null | ((x: string) => void)
 }
 
 export function getTimeSpent() {
-    return formatTime()
+    return timePassed
+}
+
+export function setTimeSpent(time: number) {
+    timePassed = time
 }
