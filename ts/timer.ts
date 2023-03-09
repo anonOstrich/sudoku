@@ -50,6 +50,9 @@ export function setIntervalRenderFunction(renderFn: null | ((x: string) => void)
 export function getTimeSpent() {
     return timePassed
 }
+export function getTimeFormatted() {
+    return formatTime()
+}
 
 export function setTimeSpent(time: number) {
     timePassed = time

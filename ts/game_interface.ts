@@ -7,7 +7,7 @@ import {
 } from './utils/dom_wrangling';
 import { createInfoUpdater } from './dom_interface';
 import { Settings, getDefaultSettings } from './settings';
-import { setIntervalRenderFunction, startTimer, renderTime, setTimeSpent } from './timer';
+import { setIntervalRenderFunction, startTimer, renderTime, setTimeSpent, pauseTimer, getTimeFormatted } from './timer';
 
 export interface UIDOMElements {
   sudokuCells: HTMLElement[];
@@ -275,15 +275,22 @@ export class SudokuInterface {
     if (!success) {
       console.error('failed to solve the board')
     } else {
-      if (this.game.gameIsWon()) {
-        this.updateInfo('CONGRATULATIONS! You solved the sudoku');
-      } else {
-        this.updateInfo('OH NO! Something went awry');
-      }
-
       for (let i = 0; i < 81; i++) {
         this.updateEl(i)
       }
+
+      this.processGameOver()
+    }
+  }
+
+  public processGameOver() {
+    pauseTimer()
+    if (this.game?.gameIsWon()) {
+      this.updateInfo(`You solved the sudoku in ${getTimeFormatted()}`);
+    } else if (this.game?.gameIsFailed()) {
+      this.updateInfo('OH NO! Something went awry');
+    } else {
+      throw new Error(`Processing game over at weird state of the game`)
     }
   }
 
@@ -306,11 +313,7 @@ export class SudokuInterface {
       this.updateEl(idx);
 
       if (this.game.gameIsFilled()) {
-        if (this.game.gameIsWon()) {
-          this.updateInfo('CONGRATULATIONS! You solved the sudoku');
-        } else {
-          this.updateInfo('OH NO! Something went awry');
-        }
+        this.processGameOver()
       }
     }
   }
@@ -323,11 +326,7 @@ export class SudokuInterface {
       this.updateEl(idx);
 
       if (this.game.gameIsFilled()) {
-        if (this.game.gameIsWon()) {
-          this.updateInfo('CONGRATULATIONS! You solved the sudoku');
-        } else {
-          this.updateInfo('OH NO! Something went awry');
-        }
+        this.processGameOver()
       }
     }
   }
