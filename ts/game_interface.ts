@@ -75,7 +75,12 @@ export class SudokuInterface {
     }
 
     startTimer()
-    renderTime((time) => this.updateInfo(time))
+    if (this.settings.displayTimer) {
+      renderTime((time) => this.updateInfo(time))
+    } else {
+      this.updateInfo('')
+    }
+    
 
   }
 
@@ -107,6 +112,11 @@ export class SudokuInterface {
       this.styleIncorrectNumbers();
     } else {
       this.unstyleIncorrectNumbers();
+    }
+
+    if (this.game?.gameIsFilled()) {
+      this.processGameOver()
+      return 
     }
 
     if (this.settings.displayTimer) {
@@ -291,7 +301,8 @@ export class SudokuInterface {
   public processGameOver() {
     pauseTimer()
     if (this.game?.gameIsWon()) {
-      this.updateInfo(`You solved the sudoku in ${getTimeFormatted()}`);
+      const additionalText = this.settings.displayTimer ? ` in ${getTimeFormatted()}` : ''
+      this.updateInfo(`You solved the sudoku${additionalText}`);
     } else if (this.game?.gameIsFailed()) {
       this.updateInfo('OH NO! Something went awry');
     } else {
