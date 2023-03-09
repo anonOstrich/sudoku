@@ -7,6 +7,7 @@ import {
 } from './utils/dom_wrangling';
 import { createInfoUpdater } from './dom_interface';
 import { Settings, getDefaultSettings } from './settings';
+import { setIntervalRenderFunction, startTimer } from './timer';
 
 export interface UIDOMElements {
   sudokuCells: HTMLElement[];
@@ -58,6 +59,16 @@ export class SudokuInterface {
     this.drawWholeBoard();
   }
 
+  public startGame(){
+    if (this.game == null){
+      console.error("Set game before starting")
+      return
+    }
+
+    startTimer()
+
+  }
+
   public setSettings(settings: Settings) {
     this.settings = settings;
     this.applySettings();
@@ -86,6 +97,15 @@ export class SudokuInterface {
       this.styleIncorrectNumbers();
     } else {
       this.unstyleIncorrectNumbers();
+    }
+
+    if (this.settings.displayTimer) {
+        setIntervalRenderFunction((time) => {
+          this.updateInfo(time)
+          // console.log(time)
+        })
+    } else {
+      setIntervalRenderFunction(null)
     }
   }
 

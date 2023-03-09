@@ -64,6 +64,7 @@ function newGameHandlerCreator(diff: difficulty, gameUI: SudokuInterface) {
     const gameCreationTask = async () => {
       const game = await createNewSudoku(diff);
       gameUI.setGame(game);
+      gameUI.startGame();
     };
     await loadWithAnimation(gameCreationTask);
   };
@@ -114,12 +115,16 @@ export function connectSettingsUI(settingsHandler: SettingsHandler) {
   // Reflect changes in the settings
   const displayErrorsCheckbox = getElementWithId('display_errors_checkbox', 'INPUT');
   const useDarkThemeCheckbox = getElementWithId('use_dark_mode_checkbox', 'INPUT')
+  const displayTimerCheckbox = getElementWithId('display_timer_checkbox', 'INPUT');
+
   displayErrorsCheckbox.onchange = settingsHandler.handleDisplayErrors;
   useDarkThemeCheckbox.onchange = settingsHandler.handleUseDarkTheme;
+  displayTimerCheckbox.onchange = settingsHandler.handleDisplayTimer;
 
   // Set initial values from the loaded values
   const settings = loadSettings()
   displayErrorsCheckbox.checked = settings.displayErrors
   useDarkThemeCheckbox.checked = settings.useDarkTheme
+  displayTimerCheckbox.checked = settings.displayTimer
   
 }
