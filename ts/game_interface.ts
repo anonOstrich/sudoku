@@ -65,6 +65,11 @@ export class SudokuInterface {
   }
 
   public startGame(){
+    if (this.game?.gameIsFilled()) {
+      this.processGameOver()
+      return 
+    } 
+
     if (this.game == null){
       return
     }
