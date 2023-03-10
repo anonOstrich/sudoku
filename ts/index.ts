@@ -2,6 +2,7 @@ import createGameInterface from './game_interface';
 import { connectSettingsUI, setupMenus } from './site_state';
 import { loadGame, saveGame } from './storage';
 import loadSettings, { createSettingsHandler } from './settings';
+import { testBackend } from './image_recognition';
 
 function main() {
   const gameUI = createGameInterface(null);
@@ -17,6 +18,7 @@ function main() {
       saveGame(gameUI);
     }
   }, 5000);
+  testBackend();
 }
 
 main();
