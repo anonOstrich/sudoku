@@ -20,7 +20,49 @@
       <a href="https://en.wikipedia.org/wiki/Sudoku" class="header__link"
         >How to play?</a
       >
-      <button id="backend-test-btn">TEST BACKEND</button>
+      <button class="btn" id="open-upload-modal-btn">Upload from photo</button>
+
+      <div class="upload-sudoku__modal invisible">
+        <button
+          class="upload-sudoku__close-btn btn"
+          id="close-upload-modal-btn"
+        >
+          X
+        </button>
+
+        <div class="upload-sudoku__instruction">
+          <h2>Copy sudoku from an image</h2>
+
+          Work with a sudoku you spot in the real world. The feature is still
+          very experimental, so the recognition is not perfect.
+        </div>
+
+        <div class="upload-sudoku__wizard">
+          <div class="upload-sudoku__wizard--screen1">
+            <figure>
+              <label for="selected-photo" id="selected-photo-label"
+                >Selected photo:
+              </label>
+              <img
+                class="photo-preview"
+                name="selected-photo"
+                id="preview-img"
+              />
+            </figure>
+            <input
+              type="file"
+              id="photo-upload-input"
+              accept="image/*"
+              capture="environment"
+            />
+
+            <button class="btn" id="photo-upload-btn">Choose a photo!</button>
+          </div>
+          <div class="upload-sudoku__wizard--screen2 invisible">
+            <button id="backend-test-btn">TEST BACKEND</button>
+          </div>
+        </div>
+      </div>
     </header>
 
     <div class="info">

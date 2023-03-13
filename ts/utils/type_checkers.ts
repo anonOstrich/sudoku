@@ -6,6 +6,7 @@ export type ElementsByTagNames = {
   P: HTMLParagraphElement;
   LI: HTMLLIElement;
   INPUT: HTMLInputElement;
+  IMG: HTMLImageElement;
 };
 
 export type TagName = keyof ElementsByTagNames;

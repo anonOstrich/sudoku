@@ -31,3 +31,12 @@
   fill: var(--color-btn);
   display: inline-block;
 }
+
+
+.invisible {
+  display: none !important;
+}
+
+.visible {
+  display: block !important;
+}

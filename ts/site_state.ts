@@ -1,4 +1,5 @@
 import { SudokuInterface } from './game_interface';
+import { setupImageRecognitionUI } from './image_recognition/setup_ui';
 import loadWithAnimation from './loader';
 import loadSettings, { SettingsHandler } from './settings';
 import { createNewSudoku, difficulty } from './sudoku_creator';
@@ -28,11 +29,11 @@ const solveAllBtn = getElementWithId('solve-all-btn', 'BUTTON')
 
 const resetButton = getElementWithId('reset-btn', 'BUTTON');
 
-function showElement(el: HTMLElement) {
+export function showElement(el: HTMLElement) {
   el.className = el.className.replace('invisible', 'visible');
 }
 
-function hideElement(el: HTMLElement) {
+export function hideElement(el: HTMLElement) {
   if (!el.className.includes('invisible')) {
     el.className = el.className.replace('visible', 'invisible');
   }
@@ -57,6 +58,8 @@ function setupMenuVisibility() {
     toggleVisibility(gameMenuDiv);
   };
 }
+
+
 
 function newGameHandlerCreator(diff: difficulty, gameUI: SudokuInterface) {
   return async function newGameHandler() {
@@ -104,11 +107,13 @@ function setupResetButton(gameUI: SudokuInterface) {
 }
 
 export function setupMenus(gameUI: SudokuInterface) {
+
   setupMenuVisibility();
   setupOptionsVisibility();
   setupNewGames(gameUI);
   setupResetButton(gameUI)
   setupSolveButtons(gameUI)
+  setupImageRecognitionUI()
 }
 
 export function connectSettingsUI(settingsHandler: SettingsHandler) {
