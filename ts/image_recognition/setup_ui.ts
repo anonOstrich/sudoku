@@ -1,6 +1,6 @@
 import { hideElement, showElement } from "../site_state";
 import { getElementWithId, getElementsWithClassName } from "../utils/dom_wrangling";
-import { handlePostToServer, handleUpload } from './upload_handling';
+import { handlePhotoResize, handlePostToServer, handleUpload } from './upload_handling';
 
 
 /*************************** CLOSING AND OPENING THE VIEW */
@@ -19,14 +19,28 @@ function setupUploadModalVisibility() {
   }
 }
 
+/**** CHANGING BETWEEN DIFFERENT STAGES OF THE WIZARD */
+
+function showFirstStage() {}
+
+function showLoadingScreen(){}
+
+function showConfirmationScreen(){}
+
 /*************************** UPLOADING THE IMAGE */
 
 const photoUploadBtn = getElementWithId('photo-upload-btn', 'BUTTON');
 const photoUploadInput = getElementWithId("photo-upload-input", "INPUT");
+const resizePhotoBtn = getElementWithId('photo-resize-btn', 'BUTTON')
 
+
+function setupResizingFunctionality() {
+  resizePhotoBtn.onclick = handlePhotoResize
+}
 
 function setupUploadingFunctionality() {
     photoUploadBtn.onclick = handlePostToServer
+
     photoUploadInput.onchange = function (e){
         if (
             e.target != null && 
@@ -50,4 +64,5 @@ export function previewImage(file: File | Blob) {
 export function setupImageRecognitionUI() {
   setupUploadModalVisibility()
   setupUploadingFunctionality()
+  setupResizingFunctionality()
 }

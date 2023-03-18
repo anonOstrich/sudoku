@@ -9,12 +9,12 @@ function createEmptyBoard(){
     return res as BoardArray
 }
 
-async function postSudokuImageGENUINE(): Promise<BoardArray> {
+async function postSudokuImageGENUINE(encodedImage: string): Promise<BoardArray> {
     throw new Error("Not implemented yet!")
 }
 
 
-export async function postSudokuImage() {
+export async function postSudokuImage(encodedImage: string): Promise<BoardArray> {
     console.log(`Fake posting...`)
     await promiseAwait(10000)
     const result = createEmptyBoard()
