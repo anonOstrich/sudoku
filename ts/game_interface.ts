@@ -7,7 +7,14 @@ import {
 } from './utils/dom_wrangling';
 import { createInfoUpdater } from './dom_interface';
 import { Settings, getDefaultSettings } from './settings';
-import { setIntervalRenderFunction, startTimer, renderTime, setTimeSpent, pauseTimer, getTimeFormatted } from './timer';
+import {
+  setIntervalRenderFunction,
+  startTimer,
+  renderTime,
+  setTimeSpent,
+  pauseTimer,
+  getTimeFormatted,
+} from './timer';
 
 export interface UIDOMElements {
   sudokuCells: HTMLElement[];
@@ -53,35 +60,33 @@ export class SudokuInterface {
     this.game = game;
     this.setAddedElementStyles();
     if (this.settings.displayErrors) {
-      this.styleIncorrectNumbers()
+      this.styleIncorrectNumbers();
     }
 
     this.drawWholeBoard();
   }
 
   public startNewGame() {
-    setTimeSpent(0)
-    this.startGame()
+    setTimeSpent(0);
+    this.startGame();
   }
 
-  public startGame(){
+  public startGame() {
     if (this.game?.gameIsFilled()) {
-      this.processGameOver()
-      return 
-    } 
-
-    if (this.game == null){
-      return
+      this.processGameOver();
+      return;
     }
 
-    startTimer()
+    if (this.game == null) {
+      return;
+    }
+
+    startTimer();
     if (this.settings.displayTimer) {
-      renderTime((time) => this.updateInfo(time))
+      renderTime((time) => this.updateInfo(time));
     } else {
-      this.updateInfo('')
+      this.updateInfo('');
     }
-    
-
   }
 
   public setSettings(settings: Settings) {
@@ -115,20 +120,20 @@ export class SudokuInterface {
     }
 
     if (this.game?.gameIsFilled()) {
-      this.processGameOver()
-      return 
+      this.processGameOver();
+      return;
     }
 
     if (this.settings.displayTimer) {
-        setIntervalRenderFunction((time) => {
-          this.updateInfo(time)
-        })
-        // Instant refresh on checkbox toggling, 
-        // no need to wait for the next second to turn :3
-        renderTime((time) => this.updateInfo(time))
+      setIntervalRenderFunction((time) => {
+        this.updateInfo(time);
+      });
+      // Instant refresh on checkbox toggling,
+      // no need to wait for the next second to turn :3
+      renderTime((time) => this.updateInfo(time));
     } else {
-      setIntervalRenderFunction(null)
-      this.updateInfo('')
+      setIntervalRenderFunction(null);
+      this.updateInfo('');
     }
   }
 
@@ -183,7 +188,7 @@ export class SudokuInterface {
       };
 
       cells[i].addEventListener('keydown', (event: KeyboardEventInit) => {
-        this.updateInfo(`keydown! ${event.code}`);
+        // this.updateInfo(`keydown! ${event.code}`);
         if (
           [
             'Digit1',
@@ -226,7 +231,6 @@ export class SudokuInterface {
     this.redoButton.addEventListener('click', () => {
       this.redo();
     });
-
   }
 
   private changeFocusWithArrows(idx: number, event: KeyboardEventInit) {
@@ -268,45 +272,50 @@ export class SudokuInterface {
   }
 
   public solveOne() {
-    if (this.game == null) return
-    let firstEmptyIdx = -1
-    for(let i = 0; i < 81; i++) {
+    if (this.game == null) return;
+    let firstEmptyIdx = -1;
+    for (let i = 0; i < 81; i++) {
       if (this.game.emptyCell(i)) {
         firstEmptyIdx = i;
-        break
+        break;
       }
     }
     if (firstEmptyIdx == -1) {
-      throw new Error("There are no empty cells to fill")
+      throw new Error('There are no empty cells to fill');
     }
 
-    this.insertSolvedValue(firstEmptyIdx, this.game.getSolvedBoard()[firstEmptyIdx])
+    this.insertSolvedValue(
+      firstEmptyIdx,
+      this.game.getSolvedBoard()[firstEmptyIdx]
+    );
   }
 
-  public solveAll(){
-    if (this.game == null) return
+  public solveAll() {
+    if (this.game == null) return;
 
-    const success = this.game.solveAll()
+    const success = this.game.solveAll();
     if (!success) {
-      console.error('failed to solve the board')
+      console.error('failed to solve the board');
     } else {
       for (let i = 0; i < 81; i++) {
-        this.updateEl(i)
+        this.updateEl(i);
       }
 
-      this.processGameOver()
+      this.processGameOver();
     }
   }
 
   public processGameOver() {
-    pauseTimer()
+    pauseTimer();
     if (this.game?.gameIsWon()) {
-      const additionalText = this.settings.displayTimer ? ` in ${getTimeFormatted()}` : ''
+      const additionalText = this.settings.displayTimer
+        ? ` in ${getTimeFormatted()}`
+        : '';
       this.updateInfo(`You solved the sudoku${additionalText}`);
     } else if (this.game?.gameIsFailed()) {
       this.updateInfo('OH NO! Something went awry');
     } else {
-      throw new Error(`Processing game over at weird state of the game`)
+      throw new Error(`Processing game over at weird state of the game`);
     }
   }
 
@@ -329,7 +338,7 @@ export class SudokuInterface {
       this.updateEl(idx);
 
       if (this.game.gameIsFilled()) {
-        this.processGameOver()
+        this.processGameOver();
       }
     }
   }
@@ -342,7 +351,7 @@ export class SudokuInterface {
       this.updateEl(idx);
 
       if (this.game.gameIsFilled()) {
-        this.processGameOver()
+        this.processGameOver();
       }
     }
   }
